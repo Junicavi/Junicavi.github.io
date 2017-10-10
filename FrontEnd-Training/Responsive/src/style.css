@@ -1,0 +1,173 @@
+body {
+	margin: 0px;
+	padding: 0px;
+	font-family: 'Montserrat', sans-serif;
+	text-align: center;
+}
+.Main-Container {
+	max-width: 1024px;
+	display: inline-block;
+	text-align: left;
+}
+
+.Header {
+	width: 100%;
+	height: 97px;
+	background-color: #373c3f;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.NavBar {
+	color: #ffffff;
+	list-style-type: none;
+	margin-right: auto;
+	margin-left: 5%;
+}
+
+.NavBar li {
+	display: inline-block;
+	padding-right: 30px;
+}
+
+.Hero {
+	width: 100%;
+	height: 580px;
+	background: red; /* For browsers that do not support gradients */
+	background: -webkit-linear-gradient(left top, #19B4C6, #078AA4); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(bottom right, #19B4C6, #078AA4); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(bottom right, #19B4C6, #078AA4); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(to bottom right, #19B4C6, #078AA4); /* Standard syntax */
+	display: flex;
+	align-items: center;
+}
+
+.Hero-Tittle {
+	color:#ffffff;
+	font-size: 65px;
+	padding-left: 10%;
+	margin-right: 0px;
+	padding-right: 0px;	
+}
+
+.Hero-Tittle br {
+	display: none;
+}
+
+.Hero-Tittle-Lv-2-Text {
+	color: #a6d4de;
+	font-size: 40px;
+	padding-left: 10%;
+	margin-right: 0px;
+	padding-right: 31%;
+	font-weight: normal;
+	display: inline;
+	vertical-align: middle;
+}
+
+.Icon {
+	width: 15px;
+	height: 25px;
+	vertical-align: -webkit-baseline-middle;
+}
+
+.Info-1 {
+	width: 100%;
+	height:245px;
+	padding-top: 0px;
+	display: flex;
+}
+
+.Info-Tittle {
+	background-color: #27212c;
+	color: #9887a6;
+	width: 75%;
+	height: 100%;
+	padding-left: 10%;
+	display: flex;
+	align-items: center;
+}
+
+.Info-Tittle-Text {
+	font-weight: normal;
+}
+
+.Icon-Link {
+	background-color: #bc3183;
+	width: 25%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.Icon-Link-Image {
+	width: 40%;
+}
+
+.Grid {
+	width: 100%;
+	height: 300px;
+	display: flex;
+}
+
+.Info-Grid-1 {
+	width: 33.33%;
+	height: 100%;
+	background-color: #5b0fa1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.Info-Grid-2 {
+	width: 33.34%;
+	height: 100%;
+	background-color: #5e7dd0;	
+}
+
+.Info-Grid-3 {
+	width: 33.33%;
+	height: 100%;
+	background-color: #e3ad93;
+}
+
+.Info-Grid-Link {
+	width: 17px;
+	height: 21.5px;
+}
+.Info-Grid-Link-Full {
+	width: 100%;
+	height: 100%;
+}
+
+.Info-Content {
+	width: 100%;
+	height: 575px;
+	background-color: #ebebeb;
+	padding-top: 30px;
+}
+
+.Info-Content-Tittle {
+	padding-left: 10%;
+	color: #088ca5;
+}
+
+.Info-Content-Text {
+	-moz-column-count:2;
+	-webkit-column-count:2;
+	column-count:2;
+	column-gap: 50px;
+	padding-left: 10%;
+	padding-right: 10%;
+	text-align: left;
+	font-size: 13px;
+	line-height: 2em;
+	color: #515151;
+}
+
+.Info-Content-Text p{
+	margin:0px;
+	padding-bottom: 30px;
+}
