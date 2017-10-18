@@ -6,29 +6,21 @@ body {
 }
 .Main-Container {
 	display: inline-block;
-	max-width: 1024px;
 	text-align: left;
 }
-
 .Header {
-	align-items: center;
 	background-color: #373c3f;
-	display: flex;
-	height: 97px;
-	justify-content: space-around;
-	width: 100%;
+	overflow: hidden;
 }
 
-.NavBar {
-	color: #ffffff;
-	margin-left: 5%;
-	margin-right: auto;
-}
-
-.NavBar a {
-	text-decoration: none;
-	color: #ffffff;
-	padding-right: 40px;
+.NavBar a{
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
 }
 
 .NavBar a:visited {
@@ -36,53 +28,67 @@ body {
 }
 
 .NavIcon {
-	display: none;
+	background-color: #202529;
 }
-.NavBar a:first-child {display: none;}
 
-.Hero {
+.NavBar a:not(:first-child) {display: none;}
+.NavBar a.NavIcon {
+	float: right;
+	display: block;
+}
+
+.NavBar.responsive {position: relative;}
+.NavBar.responsive a.NavIcon {
+	position: absolute;
+	right:0; 
+	top:0;
+}
+  .NavBar.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+
+  .Hero {
 	align-items: center;
 	background: -moz-linear-gradient(bottom right, #19B4C6, #078AA4); /* For Firefox 3.6 to 15 */
 	background: -o-linear-gradient(bottom right, #19B4C6, #078AA4); /* For Opera 11.1 to 12.0 */
 	background: -webkit-linear-gradient(left top, #19B4C6, #078AA4); /* For Safari 5.1 to 6.0 */
 	background: linear-gradient(to bottom right, #19B4C6, #078AA4); /* Standard syntax */
 	display: flex;
-	height: 580px;
+	height: 175px;
 	width: 100%;
 }
 
 .Hero-Tittle {
 	color:#ffffff;
-	font-size: 65px;
+	font-size: 6vw;
 	margin-right: 0px;
 	padding-left: 10%;
-	padding-right: 0px;	
+	padding-right: 0px;
 }
 
-.Hero-Tittle br {
-	display: none;
-}
+
 
 .Hero-Tittle-Lv-2-Text {
 	color: #a6d4de;
 	display: inline;
-	font-size: 40px;
+	font-size: 5vw;
 	font-weight: normal;
 	margin-right: 0px;
 	padding-left: 10%;
-	padding-right: 31%;
+	padding-right: 18%;
 	vertical-align: middle;
 }
 
 .Icon {
-	height: 25px;
-	vertical-align: -webkit-baseline-middle;
-	width: 15px;
+	height: 10px;
+	width: 9px;
 }
 
 .Info-1 {
 	display: flex;
-	height:245px;
+	height:75px;
 	padding-top: 0px;
 	width: 100%;
 }
@@ -99,6 +105,7 @@ body {
 
 .Info-Tittle-Text {
 	font-weight: normal;
+	font-size: 3vw;
 }
 
 .Icon-Link {
@@ -111,12 +118,11 @@ body {
 }
 
 .Icon-Link-Image {
-	width: 40%;
+	width: 15%;
+	margin-left: 35%;
 }
 
 .Grid {
-	display: flex;
-	height: 300px;
 	width: 100%;
 }
 
@@ -124,21 +130,21 @@ body {
 	align-items: center;
 	background-color: #5b0fa1;
 	display: flex;
-	height: 100%;
+	height: 275px;
 	justify-content: center;
-	width: 33.33%;
+	width: 100%;
 }
 
 .Info-Grid-2 {
 	background-color: #5e7dd0;	
-	height: 100%;
-	width: 33.34%;
+	height: 275px;
+	width: 100%;
 }
 
 .Info-Grid-3 {
 	background-color: #e3ad93;
-	height: 100%;
-	width: 33.33%;
+	height: 275px;
+	width: 100%;
 }
 
 .Info-Grid-Link {
@@ -152,7 +158,6 @@ body {
 
 .Info-Content {
 	background-color: #dedcdc;
-	/*height: 575px;*/
 	padding-top: 30px;
 	width: 100%;
 }
@@ -160,14 +165,12 @@ body {
 .Info-Content-Tittle {
 	color: #088ca5;
 	padding-left: 10%;
+	font-size: 6vw;
+	padding-bottom: 5%;
 }
 
 .Info-Content-Text {
-	-moz-column-count:2;
-	-webkit-column-count:2;
 	color: #515151;
-	column-count:2;
-	column-gap: 50px;
 	font-size: 13px;
 	line-height: 2em;
 	padding-left: 10%;
