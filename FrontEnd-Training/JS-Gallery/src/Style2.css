@@ -1,0 +1,42 @@
+body {
+	font-family: 'Roboto', sans-serif;
+	padding: 0px;
+	margin: 0px;
+	text-align: center;
+}
+
+.Main-Container {
+	display: inline-block;
+	background-color: #8c7373;
+}
+
+header {
+	display: flex;
+	justify-content: center;
+	font-size: 4vw;
+}
+
+.Gallery {
+	display: flex;
+	justify-content: center;
+}
+
+.Image-Grid {
+	width: 90%;
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	padding: 1%;
+}
+
+.Image-Grid-Image {
+	width: 50%;
+	height: 512px;
+	padding-bottom: 5%;
+}
+
+.Image-Grid-Image:hover  {
+	transition: .5s ease;
+	opacity: 0.5;
+
+}

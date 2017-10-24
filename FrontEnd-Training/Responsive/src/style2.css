@@ -86,6 +86,12 @@ body {
 	width: 9px;
 }
 
+.IconClass {
+	padding: 25px 35px;
+	margin: 0;
+	letter-spacing: 2em;
+}
+
 .Info-1 {
 	display: flex;
 	height:75px;
