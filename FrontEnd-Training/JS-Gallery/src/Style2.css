@@ -3,17 +3,24 @@ body {
 	padding: 0px;
 	margin: 0px;
 	text-align: center;
+	background-color: #4a4a4a;
 }
 
 .Main-Container {
+	max-width: 100%;
 	display: inline-block;
-	background-color: #8c7373;
+	background-color: #4a4a4a;
 }
 
 header {
 	display: flex;
 	justify-content: center;
+}
+
+header h1{
+
 	font-size: 4vw;
+	padding: 0;
 }
 
 .Gallery {
@@ -22,7 +29,7 @@ header {
 }
 
 .Image-Grid {
-	width: 90%;
+	width: 100%;
 	display: flex;
 	justify-content: center;
 	flex-wrap: wrap;
@@ -35,42 +42,115 @@ header {
 	height: 100%;
 	transition: .5s ease;
 	backface-visibility: hidden;
-	background-color: red;
+	background-color: #4a4a4a;
 }
 
 .Image-Overlay-Container {
 	position: relative;
 	width: 48%;
 	height: 256px;
-	padding-bottom: 2%;
-	padding-right: 2%;
+	margin: 0 1% 1% 0;
 }
 
 .Image-Description {
 	transition: .5s ease;
 	opacity: 0;
 	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	-ms-transform: translate(-50%, -50%);
+	bottom:0%;
+	left: 0%;
+	width: 100%;
 }
 
 .Image-Overlay-Container:hover .Image-Grid-Image {
 	opacity: 0.3;
-	/*transform: scale(2,2);
-	position: absolute;
-	z-index: 1;
-	left: 50%;*/
 }
+
 
 .Image-Overlay-Container:hover .Image-Description{
 	opacity: 1;
 }
 
 .Image-Description-Text {
-	background-color: #4caf50;
-	color: white;
-	font-size: 5vw;
-	padding:16px 32px;
+	/*background-color: #4a4a4a;*/
+	color: #fff;
+	font-size: 1vw;
+	padding: 5% 0px;
 }
+
+.Image-Description-Text a:hover, a:active, a:visited,a:link{
+	text-decoration: none;
+	color: #fff;
+}
+
+#Bg-O-1,
+#Bg-O-2,
+#Bg-O-3,
+#Bg-O-4,
+#Bg-O-5,
+#Bg-O-6,
+#Bg-O-7,
+#Bg-O-8
+
+{
+	position: fixed;
+	background-color: rgba(0,0,0,0.7);
+	width: 100%;
+	height: 100%;
+	top: 0px;
+	left: 0px;
+	z-index: 1;
+	visibility: hidden;
+	/*transition: all 2s;*/
+}
+
+.Bg-Overlay-Close {
+	color: #fff;
+	font-size: 3vw;
+	position: absolute;
+	top: 2%;
+	right:2%;
+}
+
+.Overlay {
+	position: absolute;
+	width: 89%;
+	background-color: rgba(256,256,256,0.5);
+	height: 80%;
+	top: 10%;
+	left: 5%;
+	border: 5px solid #fff;
+}
+
+.Image-Overlay {
+	height: 100%;
+	width: 100%;
+}
+
+.Overlay-Text-Container {
+	background-color: rgba(0,0,0,0.7);
+	position: absolute;
+	bottom: 0%;
+	width: 100%;
+	align-items: center;
+	padding: 1% 0;
+	justify-content: center;
+	display: flex;
+}
+
+.Overlay-Text p{
+	color: #fff;
+	text-align: justify;
+	padding: 0 2%;
+}
+
+.Overlay-Text h1{
+	font-size: 1vw;
+	color: #fff;
+}
+
+
+
+
+
+
+

@@ -5,6 +5,16 @@
 	<title>Simple Gallery</title>
 	<link rel="stylesheet" type="text/css" media="only screen and (min-device-width: 640px)" href="src/Style.css">
 	<link rel="stylesheet" type="text/css" media="only screen and (max-device-width: 639px) and (min-device-width: 320px)" href="src/style2.css">
+		<script type="text/javascript">
+		function ShowModal(x){
+			document.getElementById("Bg-O-"+x).style.visibility="visible";
+			console.log(this)
+		}
+		function HideModal(x){
+			document.getElementById("Bg-O-"+x).style.visibility="hidden";
+
+		}
+	</script>
 </head>
 <body>
 <div class="Main-Container">
@@ -13,62 +23,180 @@
 	</header>
 	<div class="Gallery">
 		<div class="Image-Grid">
-			<div class="Bg-Overlay">
+			<!-- FIRST IMAGE OVERLAY CODE -->
+			<div id="Bg-O-1" onclick="javascript:HideModal(1)">
+				<div class="Bg-Overlay-Close"><a href="javascript:HideModal(1)">&#8406</a></div>
 				<div class="Overlay">
-					<img class="Image-Overlay" src="src/images/1.png">
-					<div class="Overlay-Text">SK TELECOM T1</div>
+					<img class="Image-Overlay" src="src/images/1-1.jpg">
+					<div class="Overlay-Text-Container">
+						<div class="Overlay-Text"><h1>SK TELECOM T1</h1>
+						<p>El equipo más dominante en la historia de League Of Legends. Creado en 2013, barrieron toda la LCK, y lograron la clasificación al mundial de la season 3. Allí vencieron sin dificultad a todos los equipos que se encontraron, incluyendo a Star Horn Royal Club, equipo del legendario Uzi; con un brutal 3-0 en la final. Con 17 títulos conquistados, entre ellos tres mundiales y dos MSI, SKT va en la búsqueda de su cuarta Summoner's Cup y el tercer worlds consecutivo. Mejor participación Internacional: Tricampéon del mundo 2013-2015-2016.</p>
+						</div>						
+					</div>
 				</div>
 			</div>
-			<div class="Image-Overlay-Container">
-				<img class="Image-Grid-Image" src="src/images/1.png">
-				<div class="Image-Description">
-					<div class="Image-Description-Text">SKT T1</div>
+			<!-- SECOND IMAGE OVERLAY CODE -->
+			<div id="Bg-O-2" onclick="javascript:HideModal(2)">
+				<div class="Bg-Overlay-Close"><a href="javascript:HideModal(2)">&#8406</a></div>
+				<div class="Overlay">
+					<img class="Image-Overlay" src="src/images/2-2.jpg">
+					<div class="Overlay-Text-Container">
+						<div class="Overlay-Text"><h1>ROX Tigers</h1>
+						<p>El nombre actual de la organización, ya que es uno de los equipos que ha enfrentado no sólo más cambios de nombre sino de roster en el mundo.
+						Eternos rivales de SKT junto a KT Rolster, siempre se han conformado como el equipo hecho para derrotar a SKT, durante la S5 lograron en terreno europeo, junto a SKT vencer a los locales en las semifinales del mundial, sin embargo en la final, estos últimos demostraron ser infinitamente superiores con un 3-1 que sellaría con una amarga derrota una temporada casi perfecta para ROX.<br>
+						Mejor Participación Internacional: Sub Campeones Worlds 2015</p>
+						</div>						
+					</div>
+
 				</div>
 			</div>
-			<div class="Image-Overlay-Container">
-				<img class="Image-Grid-Image" src="src/images/2.png">
-				<div class="Image-Description">
-					<div class="Image-Description-Text">ROX Tigers</div>
+			<!-- THIRD IMAGE OVERLAY CODE -->
+			<div id="Bg-O-3" onclick="javascript:HideModal(3)">
+				<div class="Bg-Overlay-Close"><a href="javascript:HideModal(3)">&#8406</a></div>
+				<div class="Overlay">
+					<img class="Image-Overlay" src="src/images/3-3.jpg">
+					<div class="Overlay-Text-Container">
+						<div class="Overlay-Text"><h1>FNATIC</h1>
+						<p>El equipo occidental más querido de todos, gracias a su cercanía con el público de habla hispana. Campeones mundiales de la S1, y equipo más ganador de
+						Europa, también mantienen el mejore récord histórico de todos 21-0. Mejor participación desde la S1: Semifinales Worlds 2015 vs ROX TIgers.</p>
+						</div>						
+					</div>
+
 				</div>
 			</div>
-			<div class="Image-Overlay-Container">
-				<img class="Image-Grid-Image" src="src/images/3.png">
-				<div class="Image-Description">
-					<div class="Image-Description-Text">Fnatic</div>
+			<!-- FOURTH IMAGE OVERLAY CODE -->
+			<div id="Bg-O-4" onclick="javascript:HideModal(4)">
+				<div class="Bg-Overlay-Close"><a href="javascript:HideModal(4)">&#8406</a></div>
+				<div class="Overlay">
+					<img class="Image-Overlay" src="src/images/4-4.jpg">
+					<div class="Overlay-Text-Container">
+						<div class="Overlay-Text"><h1>TEAM SOLO MID</h1>
+						<p>La mejor escuadra de norteamérica, y el equipo más popular del mundo, aún tienen pendiente demostrar su valía en la escena internacional.
+						Es el único equipo que se ha clasificado a todos los mundiales. Mejor particapción internacional: Worlds - Cuartos de Final.</p>
+						</div>						
+					</div>
+
 				</div>
 			</div>
-			<div class="Image-Overlay-Container">
-				<img class="Image-Grid-Image" src="src/images/4.png">
-				<div class="Image-Description">
-					<div class="Image-Description-Text">Team Solo Mid</div>
+			<!-- FIFTH IMAGE OVERLAY CODE -->
+			<div id="Bg-O-5" onclick="javascript:HideModal(5)">
+				<div class="Bg-Overlay-Close"><a href="javascript:HideModal(5)">&#8406</a></div>
+				<div class="Overlay">
+					<img class="Image-Overlay" src="src/images/5-5.jpg">
+					<div class="Overlay-Text-Container">
+						<div class="Overlay-Text"><h1>Origen</h1>
+						<p>Durante la S5 fueron el equipo revelación, creado por xPeke en 2015, arroyaron la Challenger Series cayeron en la final del Split de verano contra Fnatic
+						en un apacionante BO5. Junto a Fnatic conformaron la dupla europea que enfrento a Korea en las semifinales del mundial de la S5.
+						Mejor participación internacional: Semifinales Worlds 2015 vs SKT.</p>
+						</div>						
+					</div>
+
 				</div>
 			</div>
-			<div class="Image-Overlay-Container">
-				<img class="Image-Grid-Image" src="src/images/5.png">
-				<div class="Image-Description">
-					<div class="Image-Description-Text">Origen</div>
+			<!-- SIXTH IMAGE OVERLAY CODE -->
+			<div id="Bg-O-6" onclick="javascript:HideModal(6)">
+				<div class="Bg-Overlay-Close"><a href="javascript:HideModal(6)">&#8406</a></div>
+				<div class="Overlay">
+					<img class="Image-Overlay" src="src/images/6-6.jpg">
+					<div class="Overlay-Text-Container">
+						<div class="Overlay-Text"><h1>LYON GAMING</h1>
+						<p>El equipo localmente más dominante en la historia del lol. La escuadra mexicana ha dominado durante 5 años la competición latinoamericana, con 9 títulos
+						consecutivos. Sin embargo la escena internacional no se le ha dado a Lyon, con sólo una participación oficial en Worlds, gracias al modelo implementado
+						en 2017. Mejor participación: Play-In Knockout Stage Worlds 2017 vs Cloud 9.</p>
+						</div>						
+					</div>
+
 				</div>
 			</div>
-			<div class="Image-Overlay-Container">
-				<img class="Image-Grid-Image" src="src/images/6.png">
-				<div class="Image-Description">
-					<div class="Image-Description-Text">Lyon Gaming</div>
+			<!-- SEVENTH IMAGE OVERLAY CODE -->
+			<div id="Bg-O-7" onclick="javascript:HideModal(7)">
+				<div class="Bg-Overlay-Close"><a href="javascript:HideModal(7)">&#8406</a></div>
+				<div class="Overlay">
+					<img class="Image-Overlay" src="src/images/7-7.jpg">
+					<div class="Overlay-Text-Container">
+						<div class="Overlay-Text"><h1>Cloud 9</h1>
+						<p>La escuadra Norteamoericana, son junto a TSM los equipos que más veces se han clasificado a Worlds, sin embargo al igual que estos no han logrado llevar su
+						éxito regional al panorama internacional.<br> Mejor participación Internacional: Worlds Cuartos de Final.</p>
+						</div>						
+					</div>
+
 				</div>
 			</div>
-			<div class="Image-Overlay-Container">
-				<img class="Image-Grid-Image" src="src/images/7.png">
-				<div class="Image-Description">
-					<div class="Image-Description-Text">Cloud 9</div>
+			<!-- EIGHTH IMAGE OVERLAY CODE -->
+			<div id="Bg-O-8" onclick="javascript:HideModal(8)">
+				<div class="Bg-Overlay-Close"><a href="javascript:HideModal(8)">&#8406</a></div>
+				<div class="Overlay">
+					<img class="Image-Overlay" src="src/images/8-8.jpg">
+					<div class="Overlay-Text-Container">
+						<div class="Overlay-Text"><h1>LONGZHU GAMING</h1>
+						<p>El equipo revelación del 2017. Tras terminar el split de primavera en la séptima posición de la LCK, el equipo realizó un cambió drástico de Roster, teniendo
+						como protagonistas la inclusión de la segunda mejor botlane del mundo: Prey y Gorilla. En una aplastante racha de victorias, se enfrentaron a SKT en la final
+						de la liga coreana, dónde de forma contundente lograron ser el primer equipo en arrebatarle una final a la escuadra de Faker. Sin embargo, y siendo favoritos fueron aplastados
+						por Samsung Galaxy en los cuartos de final del mundial con un 3-0 en contra.<br>Mejor participación Internacional: Cuartos de final Worlds 2017 vs Samsung Galaxy.</p>
+						</div>						
+					</div>
+
 				</div>
-			</div>	
+			</div>
+			<!-- FIRST IMAGE GRID CODE -->																							
 			<div class="Image-Overlay-Container">
-				<img class="Image-Grid-Image" src="src/images/8.png">
+				<a href="javascript:ShowModal(1)"><img class="Image-Grid-Image" src="src/images/1-1.jpg"></a>
 				<div class="Image-Description">
-					<div class="Image-Description-Text">Longzhu Gaming</div>
+					<div class="Image-Description-Text"><a href="javascript:ShowModal(1)">SKT T1</a></div>
+				</div>
+			</div>
+			<!-- SECOND IMAGE GRID CODE -->
+			<div class="Image-Overlay-Container">
+				<a href="javascript:ShowModal(2)"><img class="Image-Grid-Image" src="src/images/2-2.jpg"></a>
+				<div class="Image-Description">
+					<div class="Image-Description-Text"><a href="javascript:ShowModal(2)">ROX Tigers</a></div>
+				</div>
+			</div>
+			<!-- THIRD IMAGE GRID CODE -->
+			<div class="Image-Overlay-Container">
+				<img class="Image-Grid-Image" src="src/images/3-3.jpg">
+				<div class="Image-Description">
+					<div class="Image-Description-Text"><a href="javascript:ShowModal(3)">Fnatic</a></div>
+				</div>
+			</div>
+			<!-- FOURTH IMAGE GRID CODE -->
+			<div class="Image-Overlay-Container">
+				<img class="Image-Grid-Image" src="src/images/4-4.jpg">
+				<div class="Image-Description">
+					<div class="Image-Description-Text"><a href="javascript:ShowModal(4)">Team Solo Mid</a></div>
+				</div>
+			</div>
+			<!-- FIFTH IMAGE GRID CODE -->
+			<div class="Image-Overlay-Container">
+				<img class="Image-Grid-Image" src="src/images/5-5.jpg">
+				<div class="Image-Description">
+					<div class="Image-Description-Text"><a href="javascript:ShowModal(5)">Origen</a></div>
+				</div>
+			</div>
+			<!-- SIXTH IMAGE GRID CODE -->
+			<div class="Image-Overlay-Container">
+				<img class="Image-Grid-Image" src="src/images/6-6.jpg">
+				<div class="Image-Description">
+					<div class="Image-Description-Text"><a href="javascript:ShowModal(6)">Lyon Gaming</a></div>
+				</div>
+			</div>
+			<!-- SEVENTH IMAGE GRID CODE -->
+			<div class="Image-Overlay-Container">
+				<img class="Image-Grid-Image" src="src/images/7-7.jpg">
+				<div class="Image-Description">
+					<div class="Image-Description-Text"><a href="javascript:ShowModal(7)">Cloud 9</a></div>
+				</div>
+			</div>
+			<!-- EIGHTH IMAGE GRID CODE -->	
+			<div class="Image-Overlay-Container">
+				<img class="Image-Grid-Image" src="src/images/8-8.jpg">
+				<div class="Image-Description">
+					<div class="Image-Description-Text"><a href="javascript:ShowModal(8)">Longzhu Gaming</a></div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+
 </body>
 </html>
