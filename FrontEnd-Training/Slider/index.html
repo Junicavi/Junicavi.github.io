@@ -4,20 +4,54 @@
 	<title>Slider</title>
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="src/Style.css">
+<script type="text/javascript">
+	function ChangeClass() {
+		/*document.getElementById('One').classList.add('Slider-Grid-Main');
+		document.getElementById('One').classList.remove('Slider-Grid');*/
+		var First = document.getElementById('A');
+		var Second = document.getElementById('B');
+		First.id = 'B';
+		Second.id = 'A';
+		Second.classList.add('Slider-Grid');
+		Second.classList.remove('Slider-Grid-Main')
+		First.classList.add('Slider-Grid-Main');
+		First.classList.remove('Slider-Grid');
+		document.getElementById("ImageA").src="src/Images/1-Edited.png";
+		document.getElementById("ImageB").src="src/Images/2-Thumbnail.png";
+		var Desc = document.getElementById("Description");
+		Desc.style.visibility="hidden";
+		var MainText = document.getElementById("Main-Text");
+		var SecondText = document.getElementById("Left");
+		MainText.classList.add("Slider-Secondary-Text");
+		MainText.classList.remove("Slider-Main-Text");
+		SecondText.classList.add("Slider-Main-Text");
+		SecondText.classList.remove("Slider-Secondary-Text");
+		SecondText.id="";
+		MainText.id="Left";
+	}
+</script>
 </head>
 <body>
 <div class="Main-Container">
 	<div class="Slider-Container">
-		<div class="Slider-Grid">
-			<img class="Slider-Image" src="src/Images/1.png">
+		<div class="Slider-Grid" id="A">
+			<img class="Slider-Image" id="ImageA" src="src/Images/1-Thumbnail.png">
+			<div class="Slider-Secondary-Text" id="Left">Kits</div>
 		</div>
-		<div class="Slider-Grid-Main">
-			<img class="Slider-Image" src="src/Images/2.png">
+		<div class="Slider-Grid-Main" id="B">
+			<img class="Slider-Image" src="src/Images/2-Edited.png" id="ImageB">
+			<img class="Buy-Button" src="src/Images/buy-Edited.png">
+			<div id="Main-Text" class="Slider-Main-Text">Nozzles</div>
+			<div class="Slider-Main-Description" id="Description"><span>Code: 171.1112010-40</span><span>Mark: 171-40</span></div>
 		</div>
-		<div class="Slider-Grid">
-			<img class="Slider-Image" src="src/Images/3.png">
+		<div class="Slider-Grid-Last" id="C">
+			<img class="Slider-Image" src="src/Images/3-Thumbnail.png">
+			<div class="Slider-Secondary-Text" id="Right">Sprayers</div>
 		</div>
 	</div>
+	<img class="Slider-Button-Next" src="src/Images/Next.png" onclick="ChangeClass()">
+	<img class="Slider-Button-Previous" src="src/Images/Previous.png">
 </div>
+
 </body>
 </html>
