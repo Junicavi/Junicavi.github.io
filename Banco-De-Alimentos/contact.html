@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Cont&aacute;ctanos- Banco De Alimentos</title>
+	<link rel="stylesheet" type="text/css" href="src/style2.css">
+</head>
+<body>
+<div class="Main-Container">	
+	<div class="Header">
+		<div class="Logo-Container">
+			<img class="Logo-Image" src="src/Images/logo.png">
+		</div>
+		<div class="NavBar">
+			<ul class="Menu">
+				<li><a href="index.html">Inicio</a></li>
+				<li><a href="http://www.bancodealimentos.org.co/" target="blank">Banco De Alimentos</a></li>
+				<li><a href="contact.html">Contacto</a></li>
+				<li><a href="team.html">Equipo</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="Hero-Lv2-Container">
+		<div class="Hero-Lv2-Image-Container">
+			<img class="Hero-Lv2-Image" src="src/Images/Banner-1.png">			
+		</div>
+		<div class="Hero-Lv2-Info-Container">
+			<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis tellus ornare, congue ligula nec, semper urna. Donec varius augue leo, non tempor leo sagittis eu. Curabitur et urna posuere.</span>
+		</div>		
+	</div>
+	<div class="Info-Container">
+		<div class="Form-Container">
+		<form action="localhost:8080/Mail_Handler.php" method="post">
+			<label for="FName">Nombres</label>
+    		<input type="text" id="FName" name="FirstName" placeholder="Nombre">
+    		<label for="LName">Apellidos</label>
+    		<input type="text" id="LName" name="LastName" placeholder="Apellidos">
+			<label for="EmailAddress">Correo</label>
+			<input type="text" id="EAddress" name="Email" placeholder="Correo Electrónico">
+		    <label for="SubjectArea">Asunto</label>
+		    <textarea class="Subject" id="SubjectArea" name="Message" placeholder="Ingrese su mensaje"></textarea>
+    		<input type="submit" value="Enviar">			
+		</form>
+		</div>	
+	</div>
+	<div class="Footer-Container">
+		<div class="Footer-Content-Container">
+			<div class="Footer-Content">
+				<span>SOMOS FUNDADORES</span>			
+				<img class="Footer-Content-Image" src="src/Images/ABAC-Logo.png">			
+			</div>
+			<div class="Footer-Content" style="border-left:1px solid red;border-right: 1px solid red">
+				<span>SOMOS MIEMBROS</span>
+				<img class="Footer-Content-Image" src="src/Images/GFBN-Logo.png">
+			</div>
+			<div class="Footer-Content">
+				<span>¿DUDAS?</span>
+				<img class="Footer-Content-Image" src="src/Images/FUS-Logo.png">
+			</div>
+		</div>
+		<div class="Rights">2017 - Todos los derechos Reservados - Banco de Alimentos de Bogotá - Desarrollado por 
+			<a href="team.html"><img class="Rights-Image" src="src/Images/FUS-Logo-Textless.png"></a></div>
+	</div>
+</div>
+</body>
+</html>
