@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Three JS Test</title>
+    <link rel="stylesheet" type="text/css" href="src/style.css">
+</head>
+<body>
+    <script src="js/three.js"></script>
+    <script src="js/ColladaLoader.js"></script>
+    <script>
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+        var light = new THREE.AmbientLight( 0x404040 );
+        var player= null;
+
+        scene.background = new THREE.Color (0xffffff);
+        scene.add(light);
+
+        var renderer = new THREE.WebGLRenderer({antialias:true});
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild( renderer.domElement);
+
+        loader = new THREE.ColladaLoader();
+        loader.options.convertUpAxis = true;
+        loader.load('Model2.DAE',function colladaReady( collada ){
+
+            player = collada.scene;
+            for (var i=0; i < player.children.length; i++) {
+                    function randomColor(){
+                        var letters = '0123456789ABCDEF';
+                        var color = '#';
+                        for (var i = 0; i < 6; i++) {
+                            color += letters[Math.floor(Math.random()*16)];
+                        }
+                    return color;
+                }
+                player.children[i].material= new THREE.MeshBasicMaterial({color:randomColor()});
+            }
+
+            scene.add( player );
+        });
+        /*
+        var geometry = new THREE.BoxGeometry (1,1,1);
+        var material = new THREE.MeshBasicMaterial ({color: 0cccc});
+        var cube = new THREE.Mesh (geometry, material);
+        scene.add(cube);*/
+
+        camera.position.y = 1.2;
+        camera.position.z = 5;
+
+        var animate = function () {
+            requestAnimationFrame (animate);
+
+            /*cube.rotation.x += 0.1;
+            cube.rotation.y += 0.1;*/
+            if(player!=null){
+                player.rotation.y+=0.01;
+                player.rotation.z+=0.0;
+                
+            }
+
+            renderer.render( scene, camera);
+        }
+        animate();
+    </script>
+</body>
+</html>

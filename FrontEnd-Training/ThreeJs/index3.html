@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Three JS Test</title>
+	<link rel="stylesheet" type="text/css" href="src/style.css">
+</head>
+<body>
+	<script src="js/three.js"></script>
+	<script src="js/OBJLoader.js"></script>
+	<script src="js/MTLLoader.js"></script>
+	<script>
+		var scene = new THREE.Scene();
+		var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
+		camera.position.z = 250;
+		camera.lookAt(scene.position);
+
+		var directionaLight = new THREE.DirectionalLight(0xffeedd);
+		directionaLight.position.set(0,0,1),normalize();
+		scene.add(directionaLight);
+
+		var mesh = null;
+
+		var mtlLoader = new THREE.MTLLoader();
+		mtlLoader.setBaseUrl( "http://threejs.org/examples/obj/walt/" );
+		mtlLoader.setPath( "http://threejs.org/examples/obj/walt/" );
+		mtlLoader.load('Material.mtl', function( materials){
+			
+			materials.preload();
+
+			var objLoader = new THREE.OBJLoader();
+			objLoader.setMaterials(materials);
+  	  		objLoader.setPath( "http://threejs.org/examples/obj/walt/" );			
+			objLoader.load('Model.obj', function( object){
+
+				mesh = object;
+				mesh.position.y = -50;
+				scene.add(mesh);
+			});
+		});
+
+		var renderer = new THREE.WebGLRenderer();
+		renderer.setPixelRatio(window.devicePixelRatio);
+		renderer.setSize(window.innerWidth, window.innerHeight);
+		renderer.setClearColor(0xccccff);
+		document.body.appendChild( rederer.domElement);
+
+		animate();
+
+		function animate() {
+			requestAnimationFrame (animate);
+
+			if( mesh !== null) {
+				mesh.rotation.x += 0.01;
+				mesh.rotation.y += 0.02;
+			}
+
+			renderer.render(scene,camera);
+		}
+	</script>
+</body>
+</html>
