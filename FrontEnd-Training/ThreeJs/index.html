@@ -89,6 +89,9 @@
         controls.update();
         
         //ANIMATE CAR AND DISPLAY SCENE//
+        
+        var maxRotation  = Math.PI/4;
+
         var animate = function () {
             requestAnimationFrame (animate);
 
@@ -97,9 +100,10 @@
             player.children[3].rotation.y += 1;
             player.children[5].rotation.y += 1;
             player.children[7].rotation.y += 1;
-            player.children[26].rotation.z += 0.01  //RIGHT DOOR
-            player.children[27].rotation.z += -0.01 //LEFT BACK DOOR
-            player.children[29].rotation.z += 0.01  //RIGHT BACK DOOR  
+            player.children[13].translateX(0.25);
+            // player.children[26].rotation.z += 0.01  //RIGHT DOOR
+            // player.children[27].rotation.z += -0.01 //LEFT BACK DOOR
+            // player.children[29].rotation.z += 0.01  //RIGHT BACK DOOR  
             player.children[13].rotation.z += -0.01 //DRIVER DOOR
             /*if(player!=null){
                 player.rotation.y+=0.01;
