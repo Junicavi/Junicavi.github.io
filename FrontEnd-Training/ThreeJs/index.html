@@ -6,9 +6,16 @@
     <link rel="stylesheet" type="text/css" href="src/style.css">
 </head>
 <body>
+    <div class="ButtonContainer">
+        <button class="ButtonAnimation" onclick="DriverDoor()"> Driver Door</button>
+        <button class="ButtonAnimation" onclick="CoPilotDoor()"> Co-Pilot Door</button>
+        <button class="ButtonAnimation" onclick="RightDoor()"> Right Door</button>
+        <button class="ButtonAnimation" onclick="LeftDoor()"> Left Door</button>        
+    </div>
     <script src="js/three.js"></script>
     <script src="js/ColladaLoader.js"></script>
     <script src="js/OrbitControls.js"></script>
+    <script src="js/threex.domevents.js"></script>
     <script>
         //SCENE SETUP
         var scene = new THREE.Scene();
@@ -18,7 +25,14 @@
         var player = null;
         var player2 = null;
         var player3 = null;
+        var maxLeftRotation  = 2.8;
+        var maxRightRotation  = 0.37;
+        var minRotation= 0;        
         scene.background = new THREE.Color (0x000000);
+        //RENDERER//
+        var renderer = new THREE.WebGLRenderer({antialias:true});
+        renderer.setSize(window.innerWidth,window.innerHeight);
+        document.body.appendChild( renderer.domElement);
         //PLANE SETUP//
         var geometry = new THREE.PlaneGeometry(70,50);
         var texture = new THREE.TextureLoader().load('src/Images/Floor4.jpg');
@@ -26,21 +40,14 @@
         texture.wrapT = THREE.RepeatWrapping;
         texture.repeat.set(40,40);
         var material = new THREE.MeshBasicMaterial({map:texture});
-        // var material = new THREE.MeshBasicMaterial({color:0xffff00, side: THREE.DoubleSide});
         var plane = new THREE.Mesh(geometry, material);
         plane.material.side = THREE.DoubleSide;
-        //plane.position.set(0,0,0);
         plane.rotation.x = Math.PI/2;
         //ADDING ELEMENTS//
         scene.add(light);
         scene.add(plane);
-        //RENDERER//
-        var renderer = new THREE.WebGLRenderer({antialias:true});
-        renderer.setSize(window.innerWidth,window.innerHeight);
-        document.body.appendChild( renderer.domElement);
         //CAR//
         loader = new THREE.ColladaLoader();
-        // loader.options.convertUpAxis = true;
         loader.load('Model2.dae',function colladaReady( collada ){
 
             player = collada.scene;
@@ -55,76 +62,73 @@
                 }
                 player.children[i].material= new THREE.MeshBasicMaterial({color:randomColor()});
             }
-            // player.children[26].material= new THREE.MeshBasicMaterial({color:0x33333});
             scene.add( player );
         });
-        // //LEFT COLUMN
-        // loader2 = new THREE.ColladaLoader();
-        // // loader2.options.convertUpAxis = true;
-        // loader2.load('Column.dae',function colladaReady( collada ){
-        //     player2 = collada.scene;
-        //     player2.scale.set(0.5,0.5,0.5);
-        //     player2.position.set(0,0.5,0);           
-        //     scene.add( player2 );
-        // });
-        // //RIGHT COLUMN//
-        // loader3 = new THREE.ColladaLoader();
-        // // loader3.options.convertUpAxis = true;
-        // loader3.load('Column.dae',function colladaReady( collada ){
-
-        //     player3 = collada.scene;
-        //     player3.scale.set(0.5,0.5,0.5);
-        //     player3.position.set(2.5,1,-2);
-        //     scene.add( player3 );
-        // });
         //CAMERA POSITION//
-        camera.position.y = 1.5;
+        camera.position.y = 5;
         camera.position.z = 5;
-
         //ORBIT CONTROLS
-        controls.minDistance = 2;
+        controls.minDistance = 3;
         controls.maxDistance = 5;
         controls.maxPolarAngle = Math.PI/2.1;
         controls.autoRotate = false;
         controls.update();
-        
-        var maxRotation  = 3;
 
+        var DriverDoor = (function () {
+            var first = true;
+            return function() {
+                first ? OpenDriverDoor() : CloseDriverDoor();
+                first = !first;
+            }
+        })();
+
+        var OpenDriverDoor = function () {
+            requestAnimationFrame(OpenDriverDoor);
+            if(player.children[13].rotation.z > -maxLeftRotation ){
+                player.children[13].rotation.z += -0.01;
+                player.children[13].translateX(0.25);
+                console.log(player.children[13].rotation.z);
+            }
+            return;
+        }
+        var CloseDriverDoor = function () {
+            requestAnimationFrame(CloseDriverDoor);
+            if(player.children[13].rotation.z < minRotation ){
+                player.children[13].rotation.z += 0.01;
+                player.children[13].translateX(-0.25);
+                console.log(player.children[13].rotation.z); 
+            }
+        }        
+        var CoPilotDoor = function () {
+            requestAnimationFrame(CoPilotDoor);
+            if(player.children[26].rotation.z < -maxRightRotation ){
+                player.children[26].rotation.z += 0.01;
+                player.children[26].translateX(-0.25);
+            }
+        }
+        var LeftDoor = function () {
+            requestAnimationFrame(LeftDoor);
+            if(player.children[27].rotation.z > -maxLeftRotation ){
+                player.children[27].rotation.z += -0.01; //DRIVER DOOR
+                player.children[27].translateX(0.18);
+            }
+        }
+        var RightDoor = function () {
+            requestAnimationFrame(RightDoor);
+            if(player.children[29].rotation.z < -maxRightRotation ){
+                player.children[29].rotation.z += 0.01; //DRIVER DOOR
+                player.children[29].translateX(-0.18);  
+            }            
+        }                        
         //ANIMATE CAR AND DISPLAY SCENE//
         var animate = function () {
             requestAnimationFrame (animate);
-
             controls.update();
             player.children[1].rotation.y += 1;
             player.children[3].rotation.y += 1;
             player.children[5].rotation.y += 1;
             player.children[7].rotation.y += 1;
-            // player.children[26].rotation.z += 0.01  //RIGHT DOOR
-            // player.children[27].rotation.z += -0.01 //LEFT BACK DOOR
-            // player.children[29].rotation.z += 0.01  //RIGHT BACK DOOR  
-
-            if(player.children[13].rotation.z > -maxRotation ){
-                player.children[13].rotation.z += -0.01; //DRIVER DOOR
-                player.children[13].translateX(0.25);
-                
-            }
-
-            /*if(player!=null){
-                player.rotation.y+=0.01;
-                player.rotation.z+=0.0;
-                
-            }*/
-            if(player2!=null){
-                player2.rotation.y+=0.0;
-                player2.rotation.z+=0.01;
-            }            
-            if(player3!=null){
-                player3.rotation.y+=0.0;
-                player3.rotation.z+=0.01;
-            }
-            camera.rotation.y += 0.0;
-
-            renderer.render( scene, camera);
+            renderer.render( scene, camera );
         }
         animate();
     </script>
