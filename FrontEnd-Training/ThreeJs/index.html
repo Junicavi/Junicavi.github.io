@@ -11,6 +11,7 @@
         <button class="ButtonAnimation" onclick="CoPilotDoor()"> Co-Pilot Door</button>
         <button class="ButtonAnimation" onclick="RightDoor()"> Right Door</button>
         <button class="ButtonAnimation" onclick="LeftDoor()"> Left Door</button>        
+        <button class="ButtonAnimation" onclick="SpinWheels(); StopWheels();"> Spin Wheels</button>        
     </div>
     <script src="js/three.js"></script>
     <script src="js/ColladaLoader.js"></script>
@@ -81,6 +82,13 @@
                 first = !first;
             }
         })();
+        // var Wheels = (function () {
+        //     var first = true;
+        //     return function() {
+        //         first ? SpinWheels() : StopWheels();
+        //         first = !first;
+        //     }
+        // })();
 
         var OpenDriverDoor = function () {
             requestAnimationFrame(OpenDriverDoor);
@@ -119,15 +127,26 @@
                 player.children[29].rotation.z += 0.01; //DRIVER DOOR
                 player.children[29].translateX(-0.18);  
             }            
-        }                        
-        //ANIMATE CAR AND DISPLAY SCENE//
-        var animate = function () {
-            requestAnimationFrame (animate);
-            controls.update();
+        }
+         var SpinWheels = function () {
+            requestAnimationFrame(SpinWheels);
             player.children[1].rotation.y += 1;
             player.children[3].rotation.y += 1;
             player.children[5].rotation.y += 1;
             player.children[7].rotation.y += 1;
+         }
+          var StopWheels = function () {
+            requestAnimationFrame(StopWheels);
+            player.children[1].rotation.y = 0;
+            player.children[3].rotation.y = 0;
+            player.children[5].rotation.y = 0;
+            player.children[7].rotation.y = 0;
+         }
+
+        //ANIMATE CAR AND DISPLAY SCENE//
+        var animate = function () {
+            requestAnimationFrame (animate);
+            controls.update();
             renderer.render( scene, camera );
         }
         animate();
