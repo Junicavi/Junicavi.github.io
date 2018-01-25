@@ -16,18 +16,14 @@ canvas {
 .ButtonsContainer {
 	display: flex;
 	position: absolute;
-	width: 30%;
+	width: 13%;
 	top: 2%;
 	left: 2%;
 	border: 1px solid green;
 }
 
 .OpenButtonsContainer {
-	width: 50%;
-}
-
-.CloseButtonsContainer {
-	width: 50%;
+	width: 100%;
 }
 
 .ButtonAnimation {
@@ -44,25 +40,6 @@ canvas {
 }
 
 .ButtonAnimation:active {
-	background-color: yellow;
-	box-shadow: 0 5px #666;
-	transform: translateY(4px);
-}
-
-.ButtonAnimation2 {
-	width: 100%;
-	height: 100%;
-	font-size: 1vw;
-	font-weight: bolder;
-	background-color: #b3b3cc;
-	border: 2px solid green;
-}
-
-.ButtonAnimation2:hover {
-	background-color: #ffffff;
-}
-
-.ButtonAnimation2:active {
 	background-color: yellow;
 	box-shadow: 0 5px #666;
 	transform: translateY(4px);

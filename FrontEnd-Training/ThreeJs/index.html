@@ -8,21 +8,14 @@
 <body>
     <div class="ButtonsContainer">
         <div class="OpenButtonsContainer">
-        <button class="ButtonAnimation" onclick="OpenDriverDoor()">Open Driver Door</button>
-        <button class="ButtonAnimation" onclick="OpenCoPilotDoor()">Open Co-Pilot Door</button>
-        <button class="ButtonAnimation" onclick="OpenRightDoor()">Open Right Door</button>
-        <button class="ButtonAnimation" onclick="OpenLeftDoor()">Open Left Door</button>               
-        <button class="ButtonAnimation" onclick="SpinWheels()">Spin Wheels</button>               
+        <button class="ButtonAnimation" onclick="changeDriverDoorState()">Open Driver Door</button>
+        <button class="ButtonAnimation" onclick="changeCopilotDoorState()">Open Co-Pilot Door</button>
+        <button class="ButtonAnimation" onclick="changeLeftDoorState()">Open Left Door</button>               
+        <button class="ButtonAnimation" onclick="changeRightDoorState()">Open Right Door</button>
+        <button class="ButtonAnimation" onclick="changeWheelsState()">Spin Wheels</button>                            
+        <button class="ButtonAnimation" onclick="RotateFunction()">Look Around</button>
         </div>
-    <div class="CloseButtonsContainer">
-        <button class="ButtonAnimation" onclick="CloseDriverDoor()">Close Driver Door</button>
-        <button class="ButtonAnimation" onclick="CloseCoPilotDoor()">Close Co-Pilor Door</button>
-        <button class="ButtonAnimation" onclick="CloseRightDoor()">Close Right Door</button>
-        <button class="ButtonAnimation" onclick="CloseLeftDoor()">Close Left Door</button>
-        <button class="ButtonAnimation" onclick="StopWheels()">Stop Wheels</button>
-    </div>
     <div class="FullButtons">
-        <button class="ButtonAnimation2" onclick="RotateFunction()">Look Around</button>
     </div>
     </div>
     <script src="js/three.js"></script>
@@ -36,30 +29,41 @@
         var controls = new THREE.OrbitControls( camera );
         var light = new THREE.AmbientLight( 0xffffff );
         var player = null;
-        var player2 = null;
-        var player3 = null;
         var maxLeftRotation  = 2.8;
         var maxRightRotation  = 0.37;
-        var minRotation= -1.6;        
+        var minRotation= -1.6;
+        var driverDoorState = false;
+        var copilotDoorState = false;
+        var leftDoorState = false;
+        var rightDoorState = false;
+        var wheelsState = false;
+        //CAMERA SETUP
+        camera.position.y = 5;
+        camera.position.z = 5;
+        controls.minDistance = 3;
+        controls.maxDistance = 5;
+        controls.maxPolarAngle = Math.PI/2.1;
+        controls.autoRotate = false;
+        // SCENE SETUP //                
         scene.background = new THREE.Color (0x000000);
-        //RENDERER//
+        // RENDERER //
         var renderer = new THREE.WebGLRenderer({antialias:true});
         renderer.setSize(window.innerWidth,window.innerHeight);
         document.body.appendChild( renderer.domElement);
-        //PLANE SETUP//
+        // PLANE SETUP //
         var geometry = new THREE.PlaneGeometry(70,50);
         var texture = new THREE.TextureLoader().load('src/Images/Floor4.jpg');
+        var material = new THREE.MeshBasicMaterial({map:texture});
+        var plane = new THREE.Mesh(geometry, material);
         texture.wrapS = THREE.RepeatWrapping;
         texture.wrapT = THREE.RepeatWrapping;
         texture.repeat.set(40,40);
-        var material = new THREE.MeshBasicMaterial({map:texture});
-        var plane = new THREE.Mesh(geometry, material);
         plane.material.side = THREE.DoubleSide;
         plane.rotation.x = Math.PI/2;
-        //ADDING ELEMENTS//
+        // ADDING ELEMENTS //
         scene.add(light);
         scene.add(plane);
-        //CAR//
+        // MODEL LOADER //
         loader = new THREE.ColladaLoader();
         loader.load('Model2.dae',function colladaReady( collada ){
 
@@ -77,124 +81,111 @@
             }
             scene.add( player );
         });
-        //CAMERA POSITION//
-        camera.position.y = 5;
-        camera.position.z = 5;
-        //ORBIT CONTROLS
-        controls.minDistance = 3;
-        controls.maxDistance = 5;
-        controls.maxPolarAngle = Math.PI/2.1;
-        controls.autoRotate = false;
-        controls.update();
-
-        // var DriverDoor = (function () {
-        //     var first = true;
-        //     return function() {
-        //         first ? OpenDriverDoor() : DisplayCloseDriverDoor();
-        //         first = !first;
-        //     }
-        // })();
-        // var Wheels = (function () {
-        //     var first = true;
-        //     return function() {
-        //         first ? SpinWheels() : StopWheels();
-        //         first = !first;
-        //     }
-        // })();
-
-        // var EPICDOOR = function () {
-        //     requestAnimationFrame(EPICDOOR);
-        //     if(player.children[13].rotation.z >= -maxLeftRotation ){
-        //         player.children[13].rotation.z += -0.01;
-        //         player.children[13].translateX(0.25);
-        //         console.log(player.children[13].rotation.z);
-        //     }
-        //     else{
-        //         player.children[13].rotation.z += 0.01;
-        //         player.children[13].translateX(-0.25);
-        //         console.log(player.children[13].rotation.z);  
-        //     }
-        // }        
-
-        // DRIVER DOOR FUNCTIONS//
-        var OpenDriverDoor = function () {
-            requestAnimationFrame(OpenDriverDoor);
-            if(player.children[13].rotation.z >= -maxLeftRotation ){
-                player.children[13].rotation.z += -0.01;
-                player.children[13].translateX(0.25);
-                console.log(player.children[13].rotation.z);
+        // STATE SWITCHER
+        var changeDriverDoorState = function () {
+            driverDoorState = !driverDoorState;
+            console.log(driverDoorState);
+        }
+        var changeCopilotDoorState = function () {
+            copilotDoorState = !copilotDoorState;
+            console.log(copilotDoorState);
+        }
+        var changeLeftDoorState = function () {
+            leftDoorState = !leftDoorState;
+            console.log(leftDoorState);
+        }
+        var changeRightDoorState = function () {
+            rightDoorState = !rightDoorState;
+            console.log(rightDoorState);
+        }
+        var changeWheelsState = function () {
+            wheelsState = !wheelsState;
+            console.log(wheelsState);
+        }
+        // ANIMATION TRIGGERS 
+        var driverDoorTrigger = function () {
+            if (player != null) {
+                if (driverDoorState) {
+                    if(player.children[13].rotation.z >= -maxLeftRotation ){
+                        player.children[13].rotation.z += -0.01;
+                        player.children[13].translateX(0.25);
+                        console.log(player.children[13].rotation.z);
+                    }
+                }
+                else {
+                    if(player.children[13].rotation.z < minRotation ){
+                        player.children[13].rotation.z += 0.01;
+                        player.children[13].translateX(-0.25);
+                        console.log(player.children[13].rotation.z); 
+                    }
+                }
             }
         }
-        var CloseDriverDoor = function () {
-            requestAnimationFrame(CloseDriverDoor);
-            if(player.children[13].rotation.z < minRotation ){
-                player.children[13].rotation.z += 0.01;
-                player.children[13].translateX(-0.25);
-                console.log(player.children[13].rotation.z); 
+        var copilotDoorTrigger = function () {
+            if (player != null) {
+                if (copilotDoorState) {
+                    if(player.children[26].rotation.z < -maxRightRotation ){
+                        player.children[26].rotation.z += 0.01;
+                        player.children[26].translateX(-0.25);
+                    }
+                }
+                else {
+                    if(player.children[26].rotation.z > minRotation ){
+                        player.children[26].rotation.z += -0.01;
+                        player.children[26].translateX(0.25);
+                    }   
+                }
+            }
+        }        
+        var leftDoorTrigger = function () {
+            if (player != null) {
+                if (leftDoorState) {
+                    if(player.children[27].rotation.z > -maxLeftRotation ){
+                        player.children[27].rotation.z += -0.01; //DRIVER DOOR
+                        player.children[27].translateX(0.18);
+                    }
+                }
+                else {
+                    if(player.children[27].rotation.z < minRotation ){
+                        player.children[27].rotation.z += 0.01; //DRIVER DOOR
+                        player.children[27].translateX(-0.18);
+                    }
+                }
             }
         }
-        // CO-PILOT DOOR FUNCTIONS    
-        var OpenCoPilotDoor = function () {
-            requestAnimationFrame(OpenCoPilotDoor);
-            if(player.children[26].rotation.z < -maxRightRotation ){
-                player.children[26].rotation.z += 0.01;
-                player.children[26].translateX(-0.25);
+        var rightDoorTrigger = function () {
+            if (player != null) {
+                if (rightDoorState) {
+                    if(player.children[29].rotation.z < -maxRightRotation ){
+                        player.children[29].rotation.z += 0.01; //DRIVER DOOR
+                        player.children[29].translateX(-0.18);  
+                    }            
+                }
+                else {
+                    if(player.children[29].rotation.z > minRotation ){
+                        player.children[29].rotation.z += -0.01; //DRIVER DOOR
+                        player.children[29].translateX(0.18);  
+                    }            
+                }
+            }
+        }          
+        var wheelsTrigger = function () {
+            if(player != null) {
+                if(wheelsState) {
+                    player.children[1].rotation.y += 1;
+                    player.children[3].rotation.y += 1;
+                    player.children[5].rotation.y += 1;
+                    player.children[7].rotation.y += 1;
+                }
+                else {
+                    player.children[1].rotation.y += 0;
+                    player.children[3].rotation.y += 0;
+                    player.children[5].rotation.y += 0;
+                    player.children[7].rotation.y += 0;
+                }
             }
         }
-
-        var CloseCoPilotDoor = function () {
-            requestAnimationFrame(CloseCoPilotDoor);
-            if(player.children[26].rotation.z > minRotation ){
-                player.children[26].rotation.z += -0.01;
-                player.children[26].translateX(0.25);
-            }
-        }
-        // LEFT DOOR FUNCTIONS
-        var OpenLeftDoor = function () {
-            requestAnimationFrame(OpenLeftDoor);
-            if(player.children[27].rotation.z > -maxLeftRotation ){
-                player.children[27].rotation.z += -0.01; //DRIVER DOOR
-                player.children[27].translateX(0.18);
-            }
-        }
-        var CloseLeftDoor = function () {
-            requestAnimationFrame(CloseLeftDoor);
-            if(player.children[27].rotation.z < minRotation ){
-                player.children[27].rotation.z += 0.01; //DRIVER DOOR
-                player.children[27].translateX(-0.18);
-            }
-        }
-        // RIGHT DOOR FUNCTIONS        
-        var OpenRightDoor = function () {
-            requestAnimationFrame(OpenRightDoor);
-            if(player.children[29].rotation.z < -maxRightRotation ){
-                player.children[29].rotation.z += 0.01; //DRIVER DOOR
-                player.children[29].translateX(-0.18);  
-            }            
-        }
-        var CloseRightDoor = function () {
-            requestAnimationFrame(CloseRightDoor);
-            if(player.children[29].rotation.z > minRotation ){
-                player.children[29].rotation.z += -0.01; //DRIVER DOOR
-                player.children[29].translateX(0.18);  
-            }            
-        }     
-        // WHEELS FUNCTION   
-        var SpinWheels = function () {
-            requestAnimationFrame(SpinWheels);
-            player.children[1].rotation.y += 1;
-            player.children[3].rotation.y += 1;
-            player.children[5].rotation.y += 1;
-            player.children[7].rotation.y += 1;
-        }
-        var StopWheels = function () {
-            requestAnimationFrame(StopWheels);
-            player.children[1].rotation.y =+ 0;
-            player.children[3].rotation.y =+ 0;
-            player.children[5].rotation.y =+ 0;
-            player.children[7].rotation.y =+ 0;
-        }
-        // ON-OFF AUTO ROTATE FUNCTION
+        //ON-OFF AUTO ROTATE FUNCTION
         var RotateFunction = function () {
             if(controls.autoRotate === true) {
                 controls.autoRotate = false;
@@ -204,10 +195,15 @@
             }
         }
 
-        //ANIMATE CAR AND DISPLAY SCENE//
+        //DISPLAY AND ANIMATE//
         var animate = function () {
             requestAnimationFrame (animate);
             controls.update();
+            driverDoorTrigger();
+            copilotDoorTrigger();
+            leftDoorTrigger();
+            rightDoorTrigger();
+            wheelsTrigger();
             renderer.render( scene, camera );
         }
         animate();
