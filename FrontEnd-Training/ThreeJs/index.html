@@ -13,10 +13,13 @@
         <button class="ButtonAnimation" onclick="changeLeftDoorState()">Open Left Door</button>               
         <button class="ButtonAnimation" onclick="changeRightDoorState()">Open Right Door</button>
         <button class="ButtonAnimation" onclick="changeWheelsState()">Spin Wheels</button>                            
+        <button class="ButtonAnimation" onclick="changeHoodState()">Open Hood</button>                            
+        <button class="ButtonAnimation" onclick="changeBackDoorState()">Open Back Door</button>                            
         <button class="ButtonAnimation" onclick="RotateFunction()">Look Around</button>
+        <button class="ButtonAnimation" onclick="changeModelColors()">Random-White Color</button>
+        <button class="ButtonAnimation" onclick="increasePartNumber()">Change Part</button>
+        <button class ="ButtonAnimation" id="PartNumberText" disabled>Part Number: 0</button>
         </div>
-    <div class="FullButtons">
-    </div>
     </div>
     <script src="js/three.js"></script>
     <script src="js/ColladaLoader.js"></script>
@@ -32,11 +35,17 @@
         var maxLeftRotation  = 2.8;
         var maxRightRotation  = 0.37;
         var minRotation= -1.6;
+        var maxVerticalRotation = 1;
+        var minVerticalRotation = 0;
         var driverDoorState = false;
         var copilotDoorState = false;
         var leftDoorState = false;
         var rightDoorState = false;
         var wheelsState = false;
+        var hoodState = false;
+        var backDoorState = false;
+        var partNumber = 0;
+        var colorState = false;
         //CAMERA SETUP
         camera.position.y = 5;
         camera.position.z = 5;
@@ -66,21 +75,29 @@
         // MODEL LOADER //
         loader = new THREE.ColladaLoader();
         loader.load('Model2.dae',function colladaReady( collada ){
-
             player = collada.scene;
             for (var i=0; i < player.children.length; i++) {
-                    function randomColor(){
-                        var letters = '0123456789ABCDEF';
-                        var color = '#';
-                        for (var i = 0; i < 6; i++) {
-                            color += letters[Math.floor(Math.random()*16)];
-                        }
-                    return color;
-                }
-                player.children[i].material= new THREE.MeshBasicMaterial({color:randomColor()});
+                player.children[i].material = new THREE.MeshBasicMaterial({color:randomColor()});
             }
             scene.add( player );
         });
+        function randomColor(){
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random()*16)];
+            }
+            return color;
+        }
+        var increasePartNumber = function () {
+            if(partNumber != 0) {
+                player.children[partNumber].material = new THREE.MeshBasicMaterial({color:0xffffff});
+            }             
+            partNumber++;
+            document.getElementById("PartNumberText").innerHTML = "Part Number: "+partNumber;
+            player.children[partNumber].material = new THREE.MeshBasicMaterial({color:0x666});
+            // player.children[partNumber].material.side = THREE.DoubleSide;   
+        }
         // STATE SWITCHER
         var changeDriverDoorState = function () {
             driverDoorState = !driverDoorState;
@@ -101,6 +118,14 @@
         var changeWheelsState = function () {
             wheelsState = !wheelsState;
             console.log(wheelsState);
+        }
+        var changeHoodState = function () {
+            hoodState = !hoodState
+            console.log(hoodState);
+        }
+        var changeBackDoorState = function () {
+            backDoorState = !backDoorState;
+            console.log(backDoorState);
         }
         // ANIMATION TRIGGERS 
         var driverDoorTrigger = function () {
@@ -185,6 +210,64 @@
                 }
             }
         }
+        var hoodTrigger = function () {
+            if(player != null) {
+                if(hoodState) {
+                    if(player.children[31].rotation.y < maxVerticalRotation) {
+                        player.children[31].rotation.y += 0.01;
+                        player.children[31].translateZ(0.18);
+                        console.log(player.children[31].rotation.y);
+                    }
+                }
+                else {
+                    if(player.children[31].rotation.y > minVerticalRotation) {
+                        player.children[31].rotation.y += -0.01;
+                        player.children[31].translateZ(-0.18);
+                    }
+                }
+            }
+        }
+        var backDoorTrigger = function () {
+            if(player != null) {
+                if(backDoorState) {
+                    if(player.children[30].rotation.y > -maxVerticalRotation) {
+                        player.children[30].rotation.y -= 0.01;
+                        player.children[30].translateZ(0.10);
+                        console.log(player.children[30].rotation.y);
+                    }
+                }
+                else {
+                    if(player.children[30].rotation.y < minVerticalRotation) {
+                        player.children[30].rotation.y += 0.01;
+                        player.children[30].translateZ(-0.10);
+                        console.log(player.children[30].rotation.y);
+                    }                    
+                }
+            }
+        }
+        function ColorTrigger() {
+            if(player != null){
+                if(colorState) {
+                    for (var i=0; i < player.children.length; i++) {
+                        player.children[i].material = new THREE.MeshBasicMaterial({color:0xffffff});
+                        partNumber = 0;
+                        document.getElementById("PartNumberText").innerHTML = "Part Number: " + 0;
+                    }                
+                }
+                else {
+                    for (var i=0; i < player.children.length; i++) {
+                        player.children[i].material = new THREE.MeshBasicMaterial({color:randomColor()});
+                        partNumber = 0;
+                        document.getElementById("PartNumberText").innerHTML = "Part Number: " + 0;
+                    }
+                }
+            }
+        }
+        var changeModelColors = function () {
+            colorState = !colorState;
+            console.log(colorState);
+            ColorTrigger();
+        }
         //ON-OFF AUTO ROTATE FUNCTION
         var RotateFunction = function () {
             if(controls.autoRotate === true) {
@@ -204,6 +287,8 @@
             leftDoorTrigger();
             rightDoorTrigger();
             wheelsTrigger();
+            hoodTrigger();
+            backDoorTrigger();
             renderer.render( scene, camera );
         }
         animate();

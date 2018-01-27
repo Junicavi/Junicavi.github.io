@@ -44,3 +44,11 @@ canvas {
 	box-shadow: 0 5px #666;
 	transform: translateY(4px);
 }
+
+.ButtonAnimation:disabled {
+	color: white;
+}
+
+#PartNumberText:hover {
+	background-color: #b3b3cc; 
+}
