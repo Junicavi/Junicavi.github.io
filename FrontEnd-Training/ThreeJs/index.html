@@ -17,6 +17,7 @@
         <button class="ButtonAnimation" onclick="changeBackDoorState()">Open Back Door</button>                            
         <button class="ButtonAnimation" onclick="RotateFunction()">Look Around</button>
         <button class="ButtonAnimation" onclick="changeModelColors()">Random-White Color</button>
+        <button class="ButtonAnimation" onclick="changeCarState()">Move Car</button>
         <button class="ButtonAnimation" onclick="increasePartNumber()">Change Part</button>
         <button class ="ButtonAnimation" id="PartNumberText" disabled>Part Number: 0</button>
         </div>
@@ -24,7 +25,6 @@
     <script src="js/three.js"></script>
     <script src="js/ColladaLoader.js"></script>
     <script src="js/OrbitControls.js"></script>
-    <script src="js/threex.domevents.js"></script>
     <script>
         //SCENE SETUP
         var scene = new THREE.Scene();
@@ -46,6 +46,7 @@
         var backDoorState = false;
         var partNumber = 0;
         var colorState = false;
+        var carState = false;
         //CAMERA SETUP
         camera.position.y = 5;
         camera.position.z = 5;
@@ -101,31 +102,27 @@
         // STATE SWITCHER
         var changeDriverDoorState = function () {
             driverDoorState = !driverDoorState;
-            console.log(driverDoorState);
         }
         var changeCopilotDoorState = function () {
             copilotDoorState = !copilotDoorState;
-            console.log(copilotDoorState);
         }
         var changeLeftDoorState = function () {
             leftDoorState = !leftDoorState;
-            console.log(leftDoorState);
         }
         var changeRightDoorState = function () {
             rightDoorState = !rightDoorState;
-            console.log(rightDoorState);
         }
         var changeWheelsState = function () {
             wheelsState = !wheelsState;
-            console.log(wheelsState);
         }
         var changeHoodState = function () {
             hoodState = !hoodState
-            console.log(hoodState);
         }
         var changeBackDoorState = function () {
             backDoorState = !backDoorState;
-            console.log(backDoorState);
+        }
+        var changeCarState = function () {
+            carState = !carState;
         }
         // ANIMATION TRIGGERS 
         var driverDoorTrigger = function () {
@@ -134,14 +131,12 @@
                     if(player.children[13].rotation.z >= -maxLeftRotation ){
                         player.children[13].rotation.z += -0.01;
                         player.children[13].translateX(0.25);
-                        console.log(player.children[13].rotation.z);
                     }
                 }
                 else {
                     if(player.children[13].rotation.z < minRotation ){
                         player.children[13].rotation.z += 0.01;
                         player.children[13].translateX(-0.25);
-                        console.log(player.children[13].rotation.z); 
                     }
                 }
             }
@@ -216,7 +211,6 @@
                     if(player.children[31].rotation.y < maxVerticalRotation) {
                         player.children[31].rotation.y += 0.01;
                         player.children[31].translateZ(0.18);
-                        console.log(player.children[31].rotation.y);
                     }
                 }
                 else {
@@ -233,14 +227,12 @@
                     if(player.children[30].rotation.y > -maxVerticalRotation) {
                         player.children[30].rotation.y -= 0.01;
                         player.children[30].translateZ(0.10);
-                        console.log(player.children[30].rotation.y);
                     }
                 }
                 else {
                     if(player.children[30].rotation.y < minVerticalRotation) {
                         player.children[30].rotation.y += 0.01;
                         player.children[30].translateZ(-0.10);
-                        console.log(player.children[30].rotation.y);
                     }                    
                 }
             }
@@ -263,9 +255,18 @@
                 }
             }
         }
+        function carTrigger() {
+            if(player != null){
+                if(carState) {
+                    player.rotation.y += 0.01;               
+                }
+                else {
+                    player.rotation.y += 0;               
+                }
+            }
+        }        
         var changeModelColors = function () {
             colorState = !colorState;
-            console.log(colorState);
             ColorTrigger();
         }
         //ON-OFF AUTO ROTATE FUNCTION
@@ -289,6 +290,7 @@
             wheelsTrigger();
             hoodTrigger();
             backDoorTrigger();
+            carTrigger();
             renderer.render( scene, camera );
         }
         animate();
