@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ThreeJs Second Test</title>
+	<link rel="stylesheet" type="text/css" href="src/style.css">
+</head>
+<body>
+    <script src="js/three.js"></script>
+    <script src="js/ColladaLoader.js"></script>
+    <script src="js/OrbitControls.js"></script>
+    <script src="js/OBJLoader.js"></script>
+    <script src="js/MTLLoader.js"></script>
+    <script>
+    	var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        var controls = new THREE.OrbitControls( camera );
+        var light = new THREE.AmbientLight( 0xffffff );
+        var player = null;    	
+        camera.position.y = 10;
+        camera.position.x = 5;
+        camera.position.z = 10;
+        // controls.minDistance = 3;
+        // controls.maxDistance = 5;
+        controls.maxPolarAngle = Math.PI/2.1;
+        controls.autoRotate = false;
+        scene.background = new THREE.Color(0xC7EFFB);
+        var renderer = new THREE.WebGLRenderer({antialias:true});
+        renderer.setSize(window.innerWidth,window.innerHeight);
+        document.body.appendChild( renderer.domElement);  
+        scene.add(light);
+        scene.add(camera);
+        //OBJ LOADER
+        // loader = new THREE.OBJLoader();
+        // loader.load('src/Models/mpm_vol.09_p35.obj', function (player) {
+        // 	player.scale.set(0.03,0.03,0.03);
+        // 	scene.add(player);
+        // }, function (xhr) {
+        // 	console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+        // }, function (error) {
+        // 	console.log('An error happened');
+        // });
+        // OBJ + MTL LOADER
+        // var mtlLoader = new THREE.MTLLoader();
+        // var objLoader = new THREE.OBJLoader();
+        // mtlLoader.load('src/Models/OldMan/muro2.mtl', function (materials) {
+        // 	objLoader.setMaterials(materials);
+        // 	materials.preload();
+        // 	objLoader.load('src/Models/OldMan/muro.obj', function (player) {
+        // 		player.scale.set(0.03,0.03,0.03);
+        // 		scene.add(player);
+        // 	}, function (xhr) {
+        // 		console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+        // 	}, function (error) {
+        // 		console.log('An error happened');
+        // 	});
+        // });
+        //COLLADA LOADER
+        // loader = new THREE.ColladaLoader();
+        // loader.load('src/Models/dae/Medieval_building.DAE', function colladaReady (collada) {
+        // 	player = collada.scene;
+        // 	player.scale.set(1,1,1);
+        // 	player.minFilter = THREE.LinearFilter;
+        // 	scene.add(player);
+        // });
+        var animate = function () {
+        	requestAnimationFrame(animate);
+        	renderer.render(scene,camera);
+        	controls.update();
+        }
+        animate();              
+    </script>
+</body>
+</html>

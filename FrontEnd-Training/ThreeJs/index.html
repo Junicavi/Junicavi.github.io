@@ -8,16 +8,16 @@
 <body>
     <div class="ButtonsContainer">
         <div class="OpenButtonsContainer">
-        <button class="ButtonAnimation" onclick="changeDriverDoorState()">Open Driver Door</button>
-        <button class="ButtonAnimation" onclick="changeCopilotDoorState()">Open Co-Pilot Door</button>
-        <button class="ButtonAnimation" onclick="changeLeftDoorState()">Open Left Door</button>               
-        <button class="ButtonAnimation" onclick="changeRightDoorState()">Open Right Door</button>
-        <button class="ButtonAnimation" onclick="changeWheelsState()">Spin Wheels</button>                            
-        <button class="ButtonAnimation" onclick="changeHoodState()">Open Hood</button>                            
-        <button class="ButtonAnimation" onclick="changeBackDoorState()">Open Back Door</button>                            
-        <button class="ButtonAnimation" onclick="RotateFunction()">Look Around</button>
+        <button class="ButtonAnimation" id="DriverDoorButton" onclick="changeDriverDoorState()">Open Driver Door</button>
+        <button class="ButtonAnimation" id="CoPilotDoorButton" onclick="changeCopilotDoorState()">Open Co-Pilot Door</button>
+        <button class="ButtonAnimation" id="LeftDoorButton" onclick="changeLeftDoorState()">Open Left Door</button>               
+        <button class="ButtonAnimation" id="RightDoorButton" onclick="changeRightDoorState()">Open Right Door</button>
+        <button class="ButtonAnimation" id="WheelsButton" onclick="changeWheelsState()">Spin Wheels</button>                            
+        <button class="ButtonAnimation" id="HoodDoorButton" onclick="changeHoodState()">Open Hood</button>                            
+        <button class="ButtonAnimation" id="BackDoorButton" onclick="changeBackDoorState()">Open Back Door</button>                            
+        <button class="ButtonAnimation" id="LookButton" onclick="RotateFunction()">Look Around</button>
         <button class="ButtonAnimation" onclick="changeModelColors()">Random-White Color</button>
-        <button class="ButtonAnimation" onclick="changeCarState()">Move Car</button>
+        <button class="ButtonAnimation" id="MoveCarButton" onclick="changeCarState()">Move Car</button>
         <button class="ButtonAnimation" onclick="increasePartNumber()">Change Part</button>
         <button class ="ButtonAnimation" id="PartNumberText" disabled>Part Number: 0</button>
         </div>
@@ -75,7 +75,7 @@
         scene.add(plane);
         // MODEL LOADER //
         loader = new THREE.ColladaLoader();
-        loader.load('Model2.dae',function colladaReady( collada ){
+        loader.load('src/Models/Model2.dae',function colladaReady( collada ){
             player = collada.scene;
             for (var i=0; i < player.children.length; i++) {
                 player.children[i].material = new THREE.MeshBasicMaterial({color:randomColor()});
@@ -279,6 +279,63 @@
             }
         }
 
+        function buttonsTextTrigger () {
+            if(driverDoorState != false) {
+                document.getElementById("DriverDoorButton").innerHTML = "Close Driver Door";
+            }
+            else {
+                document.getElementById("DriverDoorButton").innerHTML = "Open Driver Door";
+            }
+            if(copilotDoorState != false) {
+                document.getElementById("CoPilotDoorButton").innerHTML = "Close Copilot Door";
+            }
+            else {
+                document.getElementById("CoPilotDoorButton").innerHTML = "Open Copilot Door";
+            }
+            if(leftDoorState != false) {
+                document.getElementById("LeftDoorButton").innerHTML = "Close Left Door";
+            }
+            else {
+                document.getElementById("LeftDoorButton").innerHTML = "Open Left Door";
+            }
+            if(rightDoorState != false) {
+                document.getElementById("RightDoorButton").innerHTML = "Close Right Door";
+            }
+            else {
+                document.getElementById("RightDoorButton").innerHTML = "Open Right Door";
+            }
+            if(hoodState != false) {
+                document.getElementById("HoodDoorButton").innerHTML = "Close Hood";
+            }
+            else {
+                document.getElementById("HoodDoorButton").innerHTML = "Open Hood";
+            }
+            if(backDoorState != false) {
+                document.getElementById("BackDoorButton").innerHTML = "Close Back Door";
+            }
+            else {
+                document.getElementById("BackDoorButton").innerHTML = "Open Back Door";
+            }
+            if(wheelsState != false) {
+                document.getElementById("WheelsButton").innerHTML = "Stop Wheels";
+            }
+            else {
+                document.getElementById("WheelsButton").innerHTML = "Spin Wheels";
+            }
+            if(controls.autoRotate != false) {   
+                document.getElementById("LookButton").innerHTML = "Stop Camera";
+            }
+            else {
+                document.getElementById("LookButton").innerHTML = "Look Around";
+            }      
+            if(carState != false) {
+                document.getElementById("MoveCarButton").innerHTML = "Stop Car";
+            }                                          
+            else {
+                document.getElementById("MoveCarButton").innerHTML = "Move Car";
+            }
+        }
+
         //DISPLAY AND ANIMATE//
         var animate = function () {
             requestAnimationFrame (animate);
@@ -292,6 +349,7 @@
             backDoorTrigger();
             carTrigger();
             renderer.render( scene, camera );
+            buttonsTextTrigger();
         }
         animate();
     </script>
