@@ -31,7 +31,7 @@
         scene.add(camera);
         //OBJ LOADER
         // loader = new THREE.OBJLoader();
-        // loader.load('src/Models/mpm_vol.09_p35.obj', function (player) {
+        // loader.load('src/Models/audi-r8-red-obj/audi-r8-red.obj', function (player) {
         // 	player.scale.set(0.03,0.03,0.03);
         // 	scene.add(player);
         // }, function (xhr) {
@@ -40,27 +40,40 @@
         // 	console.log('An error happened');
         // });
         // OBJ + MTL LOADER
-        // var mtlLoader = new THREE.MTLLoader();
-        // var objLoader = new THREE.OBJLoader();
-        // mtlLoader.load('src/Models/OldMan/muro2.mtl', function (materials) {
-        // 	objLoader.setMaterials(materials);
-        // 	materials.preload();
-        // 	objLoader.load('src/Models/OldMan/muro.obj', function (player) {
-        // 		player.scale.set(0.03,0.03,0.03);
-        // 		scene.add(player);
-        // 	}, function (xhr) {
-        // 		console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-        // 	}, function (error) {
-        // 		console.log('An error happened');
-        // 	});
-        // });
-        //COLLADA LOADER
+        var mtlLoader = new THREE.MTLLoader();
+        var objLoader = new THREE.OBJLoader();
+        mtlLoader.load('src/Models/audi-r8-red-obj/audi-r8-red.mtl', function (materials) {
+        	objLoader.setMaterials(materials);
+        	materials.preload();
+        	objLoader.load('src/Models/audi-r8-red-obj/audi-r8-red.obj', function (player) {
+        		// player.scale.set(0.03,0.03,0.03);
+        		scene.add(player);
+        	}, function (xhr) {
+        		console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+        	}, function (error) {
+        		console.log('An error happened');
+        	});
+        });
+        // COLLADA LOADER
         // loader = new THREE.ColladaLoader();
-        // loader.load('src/Models/dae/Medieval_building.DAE', function colladaReady (collada) {
+        // loader.load('src/Models/audi-r8-red-dae/audi-r8-red.dae', function colladaReady (collada) {
         // 	player = collada.scene;
         // 	player.scale.set(1,1,1);
         // 	player.minFilter = THREE.LinearFilter;
         // 	scene.add(player);
+        // });
+        //JSON LOADER
+        // var loader = new THREE.JSONLoader();
+        // loader.load('src/Models/audi-r8-red-threejs/audi-r8-red.json', function (geometry,materials) {
+        //     var material = materials[0];
+        //     var object = new THREE.Mesh(geometry, material);
+        //     scene.add(object);
+        // },
+        // function (xhr) {
+        //     console.log((xhr.loaded/xhr.total*100)+'% loaded');
+        // },
+        // function (err) {
+        //     console.log('An error happened');
         // });
         var animate = function () {
         	requestAnimationFrame(animate);

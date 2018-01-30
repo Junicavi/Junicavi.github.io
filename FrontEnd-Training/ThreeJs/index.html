@@ -6,31 +6,51 @@
     <link rel="stylesheet" type="text/css" href="src/style.css">
 </head>
 <body>
-    <div class="ButtonsContainer">
+    <div class="ButtonControllersContainer">
         <div class="OpenButtonsContainer">
-        <button class="ButtonAnimation" id="DriverDoorButton" onclick="changeDriverDoorState()">Open Driver Door</button>
-        <button class="ButtonAnimation" id="CoPilotDoorButton" onclick="changeCopilotDoorState()">Open Co-Pilot Door</button>
-        <button class="ButtonAnimation" id="LeftDoorButton" onclick="changeLeftDoorState()">Open Left Door</button>               
-        <button class="ButtonAnimation" id="RightDoorButton" onclick="changeRightDoorState()">Open Right Door</button>
-        <button class="ButtonAnimation" id="WheelsButton" onclick="changeWheelsState()">Spin Wheels</button>                            
-        <button class="ButtonAnimation" id="HoodDoorButton" onclick="changeHoodState()">Open Hood</button>                            
-        <button class="ButtonAnimation" id="BackDoorButton" onclick="changeBackDoorState()">Open Back Door</button>                            
-        <button class="ButtonAnimation" id="LookButton" onclick="RotateFunction()">Look Around</button>
-        <button class="ButtonAnimation" onclick="changeModelColors()">Random-White Color</button>
-        <button class="ButtonAnimation" id="MoveCarButton" onclick="changeCarState()">Move Car</button>
-        <button class="ButtonAnimation" onclick="increasePartNumber()">Change Part</button>
-        <button class ="ButtonAnimation" id="PartNumberText" disabled>Part Number: 0</button>
+            <button class="ButtonAnimation" id="DriverDoorButton" onclick="changeDriverDoorState()">Open Driver Door</button>
+            <button class="ButtonAnimation" id="CoPilotDoorButton" onclick="changeCopilotDoorState()">Open Co-Pilot Door</button>
+            <button class="ButtonAnimation" id="LeftDoorButton" onclick="changeLeftDoorState()">Open Left Door</button>               
+            <button class="ButtonAnimation" id="RightDoorButton" onclick="changeRightDoorState()">Open Right Door</button>
+            <button class="ButtonAnimation" id="WheelsButton" onclick="changeWheelsState()">Spin Wheels</button>                            
+            <button class="ButtonAnimation" id="HoodDoorButton" onclick="changeHoodState()">Open Hood</button>                            
+            <button class="ButtonAnimation" id="BackDoorButton" onclick="changeBackDoorState()">Open Back Door</button>                            
+            <button class="ButtonAnimation" id="LookButton" onclick="RotateFunction()">Look Around</button>
+            <button class="ButtonAnimation" onclick="changeModelColors()">Random-White Color</button>
+            <button class="ButtonAnimation" id="MoveCarButton" onclick="changeCarState()">Move Car</button>
+            <button class="ButtonAnimation" onclick="increasePartNumber()">Change Part</button>
+            <button class ="ButtonAnimation" id="PartNumberText" disabled>Part Number: 0</button>
+        </div>
+    </div>
+    <div class="SlideControllersContainer">
+        <div class="SlidersContainer">
+            <input type="range" min="0" max="10" value="0" id="PointLightXPosition" class="Slider">
+            <input type="range" min="0" max="5" value="5" id="PointLightYPosition" class="Slider">
+            <input type="range" min="0" max="10" value="0" id="PointLightZPosition" class="Slider">
+        </div>
+        <div class="SlidersTextContainer">
+            <div id="PointLightXPositionText" class="SliderText">X: 2</div>
+            <div id="PointLightYPositionText" class="SliderText">Y: 2</div>
+            <div id="PointLightZPositionText" class="SliderText">Z: 2</div>
         </div>
     </div>
     <script src="js/three.js"></script>
     <script src="js/ColladaLoader.js"></script>
     <script src="js/OrbitControls.js"></script>
     <script>
+        // RENDERER //
+        var renderer = new THREE.WebGLRenderer({antialias:true});
+        renderer.setSize(window.innerWidth,window.innerHeight);
+        document.body.appendChild( renderer.domElement);
         //SCENE SETUP
         var scene = new THREE.Scene();
         var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        var controls = new THREE.OrbitControls( camera );
-        var light = new THREE.AmbientLight( 0xffffff );
+        // var light = new THREE.AmbientLight( 0xffffff );
+        var lightXPosition = 2;
+        var lightYPosition = 2;
+        var lightZPosition = 2;
+        var light = new THREE.PointLight(0xffffff,1,100);
+        light.position.set(lightXPosition,lightYPosition,lightZPosition);
         var player = null;
         var maxLeftRotation  = 2.8;
         var maxRightRotation  = 0.37;
@@ -39,6 +59,7 @@
         var minVerticalRotation = 0;
         var driverDoorState = false;
         var copilotDoorState = false;
+        var controls = new THREE.OrbitControls( camera, renderer.domElement);
         var leftDoorState = false;
         var rightDoorState = false;
         var wheelsState = false;
@@ -56,10 +77,6 @@
         controls.autoRotate = false;
         // SCENE SETUP //                
         scene.background = new THREE.Color (0x000000);
-        // RENDERER //
-        var renderer = new THREE.WebGLRenderer({antialias:true});
-        renderer.setSize(window.innerWidth,window.innerHeight);
-        document.body.appendChild( renderer.domElement);
         // PLANE SETUP //
         var geometry = new THREE.PlaneGeometry(70,50);
         var texture = new THREE.TextureLoader().load('src/Images/Floor4.jpg');
@@ -78,7 +95,15 @@
         loader.load('src/Models/Model2.dae',function colladaReady( collada ){
             player = collada.scene;
             for (var i=0; i < player.children.length; i++) {
-                player.children[i].material = new THREE.MeshBasicMaterial({color:randomColor()});
+                player.children[i].material = new THREE.MeshStandardMaterial({
+                    color:randomColor(),
+                    // roughness: 0.5,
+                    // metalness: 1,
+                    // // roughnessMap: 1,
+                    // // metalnessMap: 1,
+                    // envMap: 0.5,
+                    // envMapIntensity:1
+                });
             }
             scene.add( player );
         });
@@ -92,12 +117,13 @@
         }
         var increasePartNumber = function () {
             if(partNumber != 0) {
-                player.children[partNumber].material = new THREE.MeshBasicMaterial({color:0xffffff});
+                player.children[partNumber].material = new THREE.MeshStandardMaterial({color:0xffffff});
             }             
             partNumber++;
             document.getElementById("PartNumberText").innerHTML = "Part Number: "+partNumber;
-            player.children[partNumber].material = new THREE.MeshBasicMaterial({color:0x666});
-            // player.children[partNumber].material.side = THREE.DoubleSide;   
+            player.children[partNumber].material = new THREE.MeshStandardMaterial({
+                color:0x15ff00
+            });
         }
         // STATE SWITCHER
         var changeDriverDoorState = function () {
@@ -241,14 +267,14 @@
             if(player != null){
                 if(colorState) {
                     for (var i=0; i < player.children.length; i++) {
-                        player.children[i].material = new THREE.MeshBasicMaterial({color:0xffffff});
+                        player.children[i].material = new THREE.MeshStandardMaterial({color:0xffffff});
                         partNumber = 0;
                         document.getElementById("PartNumberText").innerHTML = "Part Number: " + 0;
                     }                
                 }
                 else {
                     for (var i=0; i < player.children.length; i++) {
-                        player.children[i].material = new THREE.MeshBasicMaterial({color:randomColor()});
+                        player.children[i].material = new THREE.MeshStandardMaterial({color:randomColor()});
                         partNumber = 0;
                         document.getElementById("PartNumberText").innerHTML = "Part Number: " + 0;
                     }
@@ -335,6 +361,15 @@
                 document.getElementById("MoveCarButton").innerHTML = "Move Car";
             }
         }
+        function lightPositionsTrigger () {
+            lightXPosition = document.getElementById("PointLightXPosition").value;
+            lightYPosition = document.getElementById("PointLightYPosition").value;
+            lightZPosition = document.getElementById("PointLightZPosition").value;
+            document.getElementById("PointLightXPositionText").innerHTML = "X: "+lightXPosition;
+            document.getElementById("PointLightYPositionText").innerHTML = "Y: "+lightYPosition;
+            document.getElementById("PointLightZPositionText").innerHTML = "Z: "+lightZPosition;
+            light.position.set(lightXPosition,lightYPosition,lightZPosition);
+        }
 
         //DISPLAY AND ANIMATE//
         var animate = function () {
@@ -350,6 +385,7 @@
             carTrigger();
             renderer.render( scene, camera );
             buttonsTextTrigger();
+            lightPositionsTrigger();
         }
         animate();
     </script>
