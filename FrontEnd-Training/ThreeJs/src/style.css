@@ -53,15 +53,21 @@ canvas {
 	background-color: #b3b3cc; 
 }
 
-.SlideControllersContainer {
-	display: flex;
+.RightControllersContainer {
 	position: absolute;
 	width: 13%;
 	height: 20%;
 	top: 2%;
 	right: 2%;
-	border: 3px solid green;
+}
+
+.RCC-SideBySideContainer {
+	display: flex;
+	width: 100%;
+	height: 80%;
 	background-color: #b3b3cc;
+	border: 2px solid green;
+	border-bottom: 0px;
 }
 
 .SlidersContainer {
@@ -69,7 +75,7 @@ canvas {
 	display: flex;
 	flex-direction: column;
 	height: 100%;
-	margin-left: 5%;
+	padding-left: 3%;
 }
 
 .SlidersTextContainer {
@@ -78,7 +84,16 @@ canvas {
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	padding-left: 2%;
+}
+
+.GlobalButtonsContainer {
+	background-color: blue;
+	height: 20%;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	border: 2px solid green;
+	border-top: 1px solid green;
 }
 
 .SliderText {

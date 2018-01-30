@@ -14,7 +14,7 @@
             <button class="ButtonAnimation" id="RightDoorButton" onclick="changeRightDoorState()">Open Right Door</button>
             <button class="ButtonAnimation" id="WheelsButton" onclick="changeWheelsState()">Spin Wheels</button>                            
             <button class="ButtonAnimation" id="HoodDoorButton" onclick="changeHoodState()">Open Hood</button>                            
-            <button class="ButtonAnimation" id="BackDoorButton" onclick="changeBackDoorState()">Open Back Door</button>                            
+            <button class="ButtonAnimation" id="TrunkButton" onclick="changeTrunkState()">Open Trunk</button>                            
             <button class="ButtonAnimation" id="LookButton" onclick="RotateFunction()">Look Around</button>
             <button class="ButtonAnimation" onclick="changeModelColors()">Random-White Color</button>
             <button class="ButtonAnimation" id="MoveCarButton" onclick="changeCarState()">Move Car</button>
@@ -22,18 +22,23 @@
             <button class ="ButtonAnimation" id="PartNumberText" disabled>Part Number: 0</button>
         </div>
     </div>
-    <div class="SlideControllersContainer">
-        <div class="SlidersContainer">
-            <input type="range" min="0" max="10" value="0" id="PointLightXPosition" class="Slider">
-            <input type="range" min="0" max="5" value="5" id="PointLightYPosition" class="Slider">
-            <input type="range" min="0" max="10" value="0" id="PointLightZPosition" class="Slider">
+        <div class="RightControllersContainer">
+            <div class="RCC-SideBySideContainer">
+                <div class="SlidersContainer">
+                    <input type="range" min="-10" max="10" value="0" id="PointLightXPosition" class="Slider">
+                    <input type="range" min="0" max="5" value="5" id="PointLightYPosition" class="Slider">
+                    <input type="range" min="-10" max="10" value="0" id="PointLightZPosition" class="Slider">
+                </div>
+                <div class="SlidersTextContainer">
+                    <div id="PointLightXPositionText" class="SliderText">X: 2</div>
+                    <div id="PointLightYPositionText" class="SliderText">Y: 2</div>
+                    <div id="PointLightZPositionText" class="SliderText">Z: 2</div>
+                </div>
+            </div>
+            <div class="GlobalButtonsContainer">
+                <button class="ButtonAnimation" id="ControlMusic" onclick="ChangeMusicState()" >Pause Music</button>                
+            </div>            
         </div>
-        <div class="SlidersTextContainer">
-            <div id="PointLightXPositionText" class="SliderText">X: 2</div>
-            <div id="PointLightYPositionText" class="SliderText">Y: 2</div>
-            <div id="PointLightZPositionText" class="SliderText">Z: 2</div>
-        </div>
-    </div>
     <script src="js/three.js"></script>
     <script src="js/ColladaLoader.js"></script>
     <script src="js/OrbitControls.js"></script>
@@ -44,11 +49,10 @@
         document.body.appendChild( renderer.domElement);
         //SCENE SETUP
         var scene = new THREE.Scene();
+        scene.background = new THREE.Color (0x000000);
         var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         // var light = new THREE.AmbientLight( 0xffffff );
-        var lightXPosition = 2;
-        var lightYPosition = 2;
-        var lightZPosition = 2;
+        var lightXPosition, lightYPosition, lightZPosition;
         var light = new THREE.PointLight(0xffffff,1,100);
         light.position.set(lightXPosition,lightYPosition,lightZPosition);
         var player = null;
@@ -59,24 +63,61 @@
         var minVerticalRotation = 0;
         var driverDoorState = false;
         var copilotDoorState = false;
-        var controls = new THREE.OrbitControls( camera, renderer.domElement);
         var leftDoorState = false;
         var rightDoorState = false;
         var wheelsState = false;
         var hoodState = false;
-        var backDoorState = false;
+        var trunkState = false;
         var partNumber = 0;
         var colorState = false;
         var carState = false;
+        var musicState = false;
         //CAMERA SETUP
         camera.position.y = 5;
         camera.position.z = 5;
-        controls.minDistance = 3;
-        controls.maxDistance = 5;
-        controls.maxPolarAngle = Math.PI/2.1;
-        controls.autoRotate = false;
-        // SCENE SETUP //                
-        scene.background = new THREE.Color (0x000000);
+        //DOOR OPEN SOUND SETUP
+        var listener = new THREE.AudioListener();
+        camera.add(listener);
+        var sound = new THREE.Audio(listener);
+        var audioLoader = new THREE.AudioLoader();
+        audioLoader.load('src/Sound/Car_Door_Opening.wav', function (buffer) {
+            sound.setBuffer(buffer);
+            sound.setLoop(false);
+            sound.setVolume(0.5);
+        });
+        //CLOSE OPEN SOUND SETUP
+        var listener2 = new THREE.AudioListener();
+        camera.add(listener2);
+        var sound2 = new THREE.Audio(listener2);
+        var audioLoader2 = new THREE.AudioLoader();
+        audioLoader2.load('src/Sound/Car_Door_Closing.mp3', function (buffer) {
+            sound2.setBuffer(buffer);
+            sound2.setLoop(false);
+            sound2.setVolume(0.5);
+        });
+        //CLOSE OPEN SOUND SETUP
+        var listener3 = new THREE.AudioListener();
+        camera.add(listener3);
+        var sound3 = new THREE.Audio(listener3);
+        var audioLoader3 = new THREE.AudioLoader();
+        audioLoader3.load('src/Sound/Wheels_Loop.wav', function (buffer) {
+            sound3.setBuffer(buffer);
+            sound3.setLoop(true);
+            sound3.setVolume(0.5);
+            sound3.hasPlayBackControl = true;
+        });  
+        //GLOBAL MUSIC SETUP
+        var listener4 = new THREE.AudioListener();
+        camera.add(listener4);
+        var mainSong = new THREE.Audio(listener4);
+        var audioLoader4 = new THREE.AudioLoader();
+        audioLoader4.load('src/Sound/TT.mp3', function (buffer) {
+            mainSong.setBuffer(buffer);
+            mainSong.setLoop(true);
+            mainSong.setVolume(0.5);
+            mainSong.hasPlayBackControl = true;
+            mainSong.play();
+        });                    
         // PLANE SETUP //
         var geometry = new THREE.PlaneGeometry(70,50);
         var texture = new THREE.TextureLoader().load('src/Images/Floor4.jpg');
@@ -107,6 +148,13 @@
             }
             scene.add( player );
         });
+        //CONTROLS SETUP
+        var controls = new THREE.OrbitControls( camera, renderer.domElement);
+        controls.minDistance = 3;
+        controls.maxDistance = 5;
+        controls.maxPolarAngle = Math.PI/2.1;
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 1;        
         function randomColor(){
             var letters = '0123456789ABCDEF';
             var color = '#';
@@ -125,30 +173,88 @@
                 color:0x15ff00
             });
         }
+
+        function closeDoorSoundDelay () {
+            setTimeout (function () {
+                sound2.play();
+            }, 2000);
+        }
+
         // STATE SWITCHER
         var changeDriverDoorState = function () {
             driverDoorState = !driverDoorState;
+            if(driverDoorState === true) {
+                sound.play();
+            }
+            else {
+                closeDoorSoundDelay();
+            }
         }
         var changeCopilotDoorState = function () {
             copilotDoorState = !copilotDoorState;
+            if(copilotDoorState === true) {
+                sound.play();
+            }
+            else {
+                closeDoorSoundDelay();
+            }
         }
         var changeLeftDoorState = function () {
             leftDoorState = !leftDoorState;
+            if(leftDoorState === true) {
+                sound.play();
+            }
+            else {
+                closeDoorSoundDelay();
+            }
         }
         var changeRightDoorState = function () {
             rightDoorState = !rightDoorState;
+            if(rightDoorState === true) {
+                sound.play();
+            }
+            else {
+                closeDoorSoundDelay();
+            }
         }
         var changeWheelsState = function () {
             wheelsState = !wheelsState;
+            if(wheelsState === true) {
+                sound3.play();
+            }
+            else {
+                sound3.stop();
+            }
         }
         var changeHoodState = function () {
             hoodState = !hoodState
+            if(hoodState === true) {
+                sound.play();
+            }
+            else {
+                closeDoorSoundDelay();
+            }            
         }
-        var changeBackDoorState = function () {
-            backDoorState = !backDoorState;
+        var changeTrunkState = function () {
+            trunkState = !trunkState;
+            if(trunkState === true) {
+                sound.play();
+            }
+            else {
+                closeDoorSoundDelay();
+            }            
         }
         var changeCarState = function () {
             carState = !carState;
+        }
+        var ChangeMusicState = function () {
+            musicState = !musicState;
+            if(musicState === true) {
+                mainSong.pause();
+            }
+            else {
+                mainSong.play();
+            }
         }
         // ANIMATION TRIGGERS 
         var driverDoorTrigger = function () {
@@ -247,9 +353,9 @@
                 }
             }
         }
-        var backDoorTrigger = function () {
+        var trunkTrigger = function () {
             if(player != null) {
-                if(backDoorState) {
+                if(trunkState) {
                     if(player.children[30].rotation.y > -maxVerticalRotation) {
                         player.children[30].rotation.y -= 0.01;
                         player.children[30].translateZ(0.10);
@@ -304,7 +410,6 @@
                 controls.autoRotate = true;
             }
         }
-
         function buttonsTextTrigger () {
             if(driverDoorState != false) {
                 document.getElementById("DriverDoorButton").innerHTML = "Close Driver Door";
@@ -336,11 +441,11 @@
             else {
                 document.getElementById("HoodDoorButton").innerHTML = "Open Hood";
             }
-            if(backDoorState != false) {
-                document.getElementById("BackDoorButton").innerHTML = "Close Back Door";
+            if(trunkState != false) {
+                document.getElementById("TrunkButton").innerHTML = "Close Trunk";
             }
             else {
-                document.getElementById("BackDoorButton").innerHTML = "Open Back Door";
+                document.getElementById("TrunkButton").innerHTML = "Open Trunk";
             }
             if(wheelsState != false) {
                 document.getElementById("WheelsButton").innerHTML = "Stop Wheels";
@@ -359,6 +464,12 @@
             }                                          
             else {
                 document.getElementById("MoveCarButton").innerHTML = "Move Car";
+            }
+            if(musicState != false) {
+                document.getElementById("ControlMusic").innerHTML = "Play Music";
+            }
+            else {
+                document.getElementById("ControlMusic").innerHTML = "Pause Music";
             }
         }
         function lightPositionsTrigger () {
@@ -381,11 +492,12 @@
             rightDoorTrigger();
             wheelsTrigger();
             hoodTrigger();
-            backDoorTrigger();
+            trunkTrigger();
             carTrigger();
             renderer.render( scene, camera );
             buttonsTextTrigger();
             lightPositionsTrigger();
+            // musicTrigger();
         }
         animate();
     </script>
