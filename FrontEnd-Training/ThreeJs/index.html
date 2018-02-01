@@ -28,11 +28,13 @@
                     <input type="range" min="-10" max="10" value="0" id="PointLightXPosition" class="Slider">
                     <input type="range" min="0" max="5" value="5" id="PointLightYPosition" class="Slider">
                     <input type="range" min="-10" max="10" value="0" id="PointLightZPosition" class="Slider">
+                    <input type="range" min="0" max="5" value="1" id="PointLightIntensity" class="Slider">
                 </div>
                 <div class="SlidersTextContainer">
                     <div id="PointLightXPositionText" class="SliderText">X: 2</div>
                     <div id="PointLightYPositionText" class="SliderText">Y: 2</div>
                     <div id="PointLightZPositionText" class="SliderText">Z: 2</div>
+                    <div id="PointLightIntensityText" class="SliderText">Intensity: 1</div>
                 </div>
             </div>
             <div class="GlobalButtonsContainer">
@@ -52,8 +54,8 @@
         scene.background = new THREE.Color (0x000000);
         var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         // var light = new THREE.AmbientLight( 0xffffff );
-        var lightXPosition, lightYPosition, lightZPosition;
-        var light = new THREE.PointLight(0xffffff,1,100);
+        var lightIntensity, lightXPosition, lightYPosition, lightZPosition;
+        var light = new THREE.PointLight(0xffffff,lightIntensity,100);
         light.position.set(lightXPosition,lightYPosition,lightZPosition);
         var player = null;
         var maxLeftRotation  = 2.8;
@@ -75,6 +77,15 @@
         //CAMERA SETUP
         camera.position.y = 5;
         camera.position.z = 5;
+        // SKYBOX SETUP
+        // var skyboxLoader = new THREE.CubeTextureLoader();
+        // skyboxLoader.setPath ('src/Images/Skybox/');
+        // var textureCube = skyboxLoader.load([
+        //     'Front.png','Back.png',
+        //     'Up.png','Down.png',
+        //     'Left.png','Right.png']);
+        // var cubeMaterial = new THREE.MeshBasicMaterial({color:0xffffff,envMap:textureCube});
+        // scene.background = cubeMaterial;
         //DOOR OPEN SOUND SETUP
         var listener = new THREE.AudioListener();
         camera.add(listener);
@@ -85,7 +96,7 @@
             sound.setLoop(false);
             sound.setVolume(0.5);
         });
-        //CLOSE OPEN SOUND SETUP
+        //DOOR CLOSE SOUND SETUP
         var listener2 = new THREE.AudioListener();
         camera.add(listener2);
         var sound2 = new THREE.Audio(listener2);
@@ -95,7 +106,7 @@
             sound2.setLoop(false);
             sound2.setVolume(0.5);
         });
-        //CLOSE OPEN SOUND SETUP
+        //DRIVING SOUND SETUP
         var listener3 = new THREE.AudioListener();
         camera.add(listener3);
         var sound3 = new THREE.Audio(listener3);
@@ -103,7 +114,7 @@
         audioLoader3.load('src/Sound/Wheels_Loop.wav', function (buffer) {
             sound3.setBuffer(buffer);
             sound3.setLoop(true);
-            sound3.setVolume(0.5);
+            sound3.setVolume(0.2);
             sound3.hasPlayBackControl = true;
         });  
         //GLOBAL MUSIC SETUP
@@ -114,18 +125,18 @@
         audioLoader4.load('src/Sound/TT.mp3', function (buffer) {
             mainSong.setBuffer(buffer);
             mainSong.setLoop(true);
-            mainSong.setVolume(0.5);
+            mainSong.setVolume(0.3);
             mainSong.hasPlayBackControl = true;
             mainSong.play();
         });                    
         // PLANE SETUP //
-        var geometry = new THREE.PlaneGeometry(70,50);
+        var geometry = new THREE.PlaneGeometry(innerWidth,innerWidth);
         var texture = new THREE.TextureLoader().load('src/Images/Floor4.jpg');
         var material = new THREE.MeshBasicMaterial({map:texture});
         var plane = new THREE.Mesh(geometry, material);
         texture.wrapS = THREE.RepeatWrapping;
         texture.wrapT = THREE.RepeatWrapping;
-        texture.repeat.set(40,40);
+        texture.repeat.set(innerWidth,innerWidth);
         plane.material.side = THREE.DoubleSide;
         plane.rotation.x = Math.PI/2;
         // ADDING ELEMENTS //
@@ -138,12 +149,7 @@
             for (var i=0; i < player.children.length; i++) {
                 player.children[i].material = new THREE.MeshStandardMaterial({
                     color:randomColor(),
-                    // roughness: 0.5,
-                    // metalness: 1,
-                    // // roughnessMap: 1,
-                    // // metalnessMap: 1,
-                    // envMap: 0.5,
-                    // envMapIntensity:1
+                    metalness: 1,
                 });
             }
             scene.add( player );
@@ -153,7 +159,7 @@
         controls.minDistance = 3;
         controls.maxDistance = 5;
         controls.maxPolarAngle = Math.PI/2.1;
-        controls.autoRotate = true;
+        controls.autoRotate = false;
         controls.autoRotateSpeed = 1;        
         function randomColor(){
             var letters = '0123456789ABCDEF';
@@ -324,15 +330,23 @@
         var wheelsTrigger = function () {
             if(player != null) {
                 if(wheelsState) {
+                    player.children[0].rotation.y -= 1;
                     player.children[1].rotation.y += 1;
+                    player.children[2].rotation.y -= 1;
                     player.children[3].rotation.y += 1;
+                    player.children[4].rotation.y -= 1;
                     player.children[5].rotation.y += 1;
+                    player.children[6].rotation.y -= 1;
                     player.children[7].rotation.y += 1;
                 }
                 else {
+                    player.children[0].rotation.y -= 0;
                     player.children[1].rotation.y += 0;
+                    player.children[2].rotation.y -= 0;
                     player.children[3].rotation.y += 0;
+                    player.children[4].rotation.y -= 0;
                     player.children[5].rotation.y += 0;
+                    player.children[6].rotation.y -= 0;
                     player.children[7].rotation.y += 0;
                 }
             }
@@ -472,14 +486,17 @@
                 document.getElementById("ControlMusic").innerHTML = "Pause Music";
             }
         }
-        function lightPositionsTrigger () {
+        function lightControlTrigger () {
             lightXPosition = document.getElementById("PointLightXPosition").value;
             lightYPosition = document.getElementById("PointLightYPosition").value;
             lightZPosition = document.getElementById("PointLightZPosition").value;
+            lightIntensity = document.getElementById("PointLightIntensity").value;
             document.getElementById("PointLightXPositionText").innerHTML = "X: "+lightXPosition;
             document.getElementById("PointLightYPositionText").innerHTML = "Y: "+lightYPosition;
             document.getElementById("PointLightZPositionText").innerHTML = "Z: "+lightZPosition;
+            document.getElementById("PointLightIntensityText").innerHTML = "Intensity: "+lightIntensity;
             light.position.set(lightXPosition,lightYPosition,lightZPosition);
+            light.intensity = lightIntensity;
         }
 
         //DISPLAY AND ANIMATE//
@@ -496,7 +513,7 @@
             carTrigger();
             renderer.render( scene, camera );
             buttonsTextTrigger();
-            lightPositionsTrigger();
+            lightControlTrigger();
             // musicTrigger();
         }
         animate();

@@ -55,7 +55,7 @@ canvas {
 
 .RightControllersContainer {
 	position: absolute;
-	width: 13%;
+	width: 20%;
 	height: 20%;
 	top: 2%;
 	right: 2%;
@@ -68,10 +68,11 @@ canvas {
 	background-color: #b3b3cc;
 	border: 2px solid green;
 	border-bottom: 0px;
+	padding-bottom: 3%;
 }
 
 .SlidersContainer {
-	width: 70%;
+	width: 60%;
 	display: flex;
 	flex-direction: column;
 	height: 100%;
@@ -80,7 +81,7 @@ canvas {
 
 .SlidersTextContainer {
 	font-weight: bolder;
-	width: 30%;
+	width: 40%;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
