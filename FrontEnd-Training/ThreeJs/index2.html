@@ -11,74 +11,40 @@
     <script src="js/OBJLoader.js"></script>
     <script src="js/MTLLoader.js"></script>
     <script>
-    	var scene = new THREE.Scene();
+        var scene = new THREE.Scene();
+        // scene.background = new THREE.Color (0xffffff);
         var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         var controls = new THREE.OrbitControls( camera );
         var light = new THREE.AmbientLight( 0xffffff );
-        var player = null;    	
-        camera.position.y = 10;
-        camera.position.x = 5;
-        camera.position.z = 10;
-        // controls.minDistance = 3;
-        // controls.maxDistance = 5;
-        controls.maxPolarAngle = Math.PI/2.1;
-        controls.autoRotate = false;
-        scene.background = new THREE.Color(0xC7EFFB);
+        var player = null;      
+        camera.position.set(1,1,1);
+        var axes = new THREE.AxesHelper(10);
+        scene.add( axes );
+        scene.add( camera);
+        scene.add( light);
+
+        var loader = new THREE.CubeTextureLoader();
+        loader.setPath( 'src/Images/Skybox2/' );
+
+        var textureCube = loader.load( [
+            'Back.png', 'Front.png',
+            'Down.png', 'Up.png',
+            'Right.png', 'Left.png'
+        ] );
+        var material = new THREE.MeshBasicMaterial( { color: 0xffffff, envMap: textureCube } );
+        material.side = THREE.BackSide;
+        var geometry = new THREE.BoxGeometry( 512, 512, 512 );
+        // var material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+        var cube = new THREE.Mesh( geometry, material );
+        scene.add( cube );
+
         var renderer = new THREE.WebGLRenderer({antialias:true});
         renderer.setSize(window.innerWidth,window.innerHeight);
         document.body.appendChild( renderer.domElement);  
-        scene.add(light);
-        scene.add(camera);
-        //OBJ LOADER
-        // loader = new THREE.OBJLoader();
-        // loader.load('src/Models/audi-r8-red-obj/audi-r8-red.obj', function (player) {
-        // 	player.scale.set(0.03,0.03,0.03);
-        // 	scene.add(player);
-        // }, function (xhr) {
-        // 	console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-        // }, function (error) {
-        // 	console.log('An error happened');
-        // });
-        // OBJ + MTL LOADER
-        var mtlLoader = new THREE.MTLLoader();
-        var objLoader = new THREE.OBJLoader();
-        mtlLoader.load('src/Models/audi-r8-red-obj/audi-r8-red.mtl', function (materials) {
-        	objLoader.setMaterials(materials);
-        	materials.preload();
-        	objLoader.load('src/Models/audi-r8-red-obj/audi-r8-red.obj', function (player) {
-        		// player.scale.set(0.03,0.03,0.03);
-        		scene.add(player);
-        	}, function (xhr) {
-        		console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-        	}, function (error) {
-        		console.log('An error happened');
-        	});
-        });
-        // COLLADA LOADER
-        // loader = new THREE.ColladaLoader();
-        // loader.load('src/Models/audi-r8-red-dae/audi-r8-red.dae', function colladaReady (collada) {
-        // 	player = collada.scene;
-        // 	player.scale.set(1,1,1);
-        // 	player.minFilter = THREE.LinearFilter;
-        // 	scene.add(player);
-        // });
-        //JSON LOADER
-        // var loader = new THREE.JSONLoader();
-        // loader.load('src/Models/audi-r8-red-threejs/audi-r8-red.json', function (geometry,materials) {
-        //     var material = materials[0];
-        //     var object = new THREE.Mesh(geometry, material);
-        //     scene.add(object);
-        // },
-        // function (xhr) {
-        //     console.log((xhr.loaded/xhr.total*100)+'% loaded');
-        // },
-        // function (err) {
-        //     console.log('An error happened');
-        // });
         var animate = function () {
-        	requestAnimationFrame(animate);
-        	renderer.render(scene,camera);
-        	controls.update();
+            requestAnimationFrame(animate);
+            renderer.render(scene,camera);
+            controls.update();
         }
         animate();              
     </script>

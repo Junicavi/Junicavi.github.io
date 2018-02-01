@@ -18,6 +18,7 @@
             <button class="ButtonAnimation" id="LookButton" onclick="RotateFunction()">Look Around</button>
             <button class="ButtonAnimation" onclick="changeModelColors()">Random-White Color</button>
             <button class="ButtonAnimation" id="MoveCarButton" onclick="changeCarState()">Move Car</button>
+            <button class="ButtonAnimation" id="MoveCarButton" onclick="changeDrivingState()">Drive Car</button>
             <button class="ButtonAnimation" onclick="increasePartNumber()">Change Part</button>
             <button class ="ButtonAnimation" id="PartNumberText" disabled>Part Number: 0</button>
         </div>
@@ -74,18 +75,12 @@
         var colorState = false;
         var carState = false;
         var musicState = false;
+        var drivingState = false;
+        var axes = new THREE.AxesHelper(10);
         //CAMERA SETUP
+        camera.position.x = -5;
         camera.position.y = 5;
         camera.position.z = 5;
-        // SKYBOX SETUP
-        // var skyboxLoader = new THREE.CubeTextureLoader();
-        // skyboxLoader.setPath ('src/Images/Skybox/');
-        // var textureCube = skyboxLoader.load([
-        //     'Front.png','Back.png',
-        //     'Up.png','Down.png',
-        //     'Left.png','Right.png']);
-        // var cubeMaterial = new THREE.MeshBasicMaterial({color:0xffffff,envMap:textureCube});
-        // scene.background = cubeMaterial;
         //DOOR OPEN SOUND SETUP
         var listener = new THREE.AudioListener();
         camera.add(listener);
@@ -139,9 +134,16 @@
         texture.repeat.set(innerWidth,innerWidth);
         plane.material.side = THREE.DoubleSide;
         plane.rotation.x = Math.PI/2;
+        // BAIT SETUP //
+        var baitGeometry = new THREE.PlaneGeometry(10,10);
+        var baitMaterial = new THREE.MeshBasicMaterial({color:randomColor()});
+        var bait = new THREE.Mesh(baitGeometry, baitMaterial);  
+        bait.visible = false;     
         // ADDING ELEMENTS //
         scene.add(light);
         scene.add(plane);
+        scene.add(bait);
+        scene.add( axes );
         // MODEL LOADER //
         loader = new THREE.ColladaLoader();
         loader.load('src/Models/Model2.dae',function colladaReady( collada ){
@@ -154,6 +156,9 @@
             }
             scene.add( player );
         });
+        if(player != null) {
+            player.add(axes);
+        }
         //CONTROLS SETUP
         var controls = new THREE.OrbitControls( camera, renderer.domElement);
         controls.minDistance = 3;
@@ -262,6 +267,13 @@
                 mainSong.play();
             }
         }
+        var changeModelColors = function () {
+            colorState = !colorState;
+            ColorTrigger();
+        }  
+        var changeDrivingState = function () {
+            drivingState = !drivingState;
+        }              
         // ANIMATION TRIGGERS 
         var driverDoorTrigger = function () {
             if (player != null) {
@@ -404,17 +416,14 @@
         function carTrigger() {
             if(player != null){
                 if(carState) {
-                    player.rotation.y += 0.01;               
+                    player.rotation.y += 0.01;                             
                 }
                 else {
-                    player.rotation.y += 0;               
+                    player.rotation.y += 0;                             
                 }
             }
         }        
-        var changeModelColors = function () {
-            colorState = !colorState;
-            ColorTrigger();
-        }
+
         //ON-OFF AUTO ROTATE FUNCTION
         var RotateFunction = function () {
             if(controls.autoRotate === true) {
@@ -499,6 +508,43 @@
             light.intensity = lightIntensity;
         }
 
+        function carDrivingTrigger () {
+            if(player != null){
+                if(drivingState) {
+                    // var direction = player.getWorldDirection();
+                    // var moveSpeed = 1;
+                    // player.position.add(direction.multiplyScalar(moveSpeed));
+                    // controls.enabled = false;
+                    // controls.update();
+                    plane.position.x += 0.01;
+                    controls.object = bait;
+                    // controls.enabled = false;
+                    controls.update();
+                    // player.add(camera);
+                    // var relativeCameraOffset = new THREE.Vector3(0,50,200);
+                    // var cameraOffset = relativeCameraOffset.applyMatrix4(player.matrixWorld);
+                    // controls.position0.set(player.position.x,5,5);
+                    // controls.target0.set(player.position.x,player.position.y,player.position.z)
+                    // controls.enableRotate = false;
+                    camera.position.x = player.position.x;
+                    // controls.update();
+                    // console.log("Posiciòn de la cámara: "+camera.position.x);
+                    // console.log("Posiciòn del auto: "+player.position.x);
+                    // camera.position.y = cameraOffset.y;
+                    // camera.position.z = cameraOffset.z;
+                    // camera.lookAt(player.position);
+                    // controls.update();
+                }
+                else {
+                    // controls.position0.x = player.position.x;
+                    // plane.position.set(0,0,0);
+                    // camera.position.set(0,5,5);
+                    controls.object = camera;
+                    controls.update();
+                }
+            }
+        }
+
         //DISPLAY AND ANIMATE//
         var animate = function () {
             requestAnimationFrame (animate);
@@ -514,6 +560,7 @@
             renderer.render( scene, camera );
             buttonsTextTrigger();
             lightControlTrigger();
+            carDrivingTrigger();
             // musicTrigger();
         }
         animate();
